@@ -12,7 +12,7 @@ def service(session: Session):
 
 
 class TestAdressService:
-    def test_create_address(self, service: AddressService):
+    def test_should_create_address(self, service: AddressService):
         payload: AddressCreate = AddressCreate(
             city="Campina Grande",
             state=StatesEnum.PB,
@@ -24,8 +24,6 @@ class TestAdressService:
             longitude=0.23,
         )
 
-        print(payload)
-
         response = service.create(payload)
 
         assert response.city == payload.city
@@ -36,3 +34,18 @@ class TestAdressService:
         assert response.number == payload.number
         assert response.latitude == payload.latitude
         assert response.longitude == payload.longitude
+
+    def test_sould_raise_exception_when_not_valid_zipcode(
+        self, service: AddressService
+    ):
+        with pytest.raises(ValueError):
+            AddressCreate(
+                city="Campina Grande",
+                state=StatesEnum.PB,
+                street="Avenida Marechal Floriano Peixoto",
+                zipcode="584345000",
+                complement="Perto do Trauma",
+                number="2132",
+                latitude=0.23,
+                longitude=0.23,
+            )
