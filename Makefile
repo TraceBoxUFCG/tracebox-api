@@ -20,3 +20,6 @@ docker-alembic-revision: ## Bootstrap an alembic migration file based on source 
 
 test:
 	poetry run pytest $(file)
+
+lint:
+	poetry run pre-commit run --all-files
