@@ -146,3 +146,17 @@ class TestAdressService:
             assert response.number == payload.number
             assert response.latitude == latitude
             assert response.longitude == longitude
+
+    def test_should_create_only_with_coordinates(self, service: AddressService):
+        payload: AddressCreate = AddressCreate(latitude=20, longitude=30)
+
+        response = service.create(payload)
+
+        assert response.city == payload.city
+        assert response.state == payload.state
+        assert response.street == payload.street
+        assert response.zipcode == payload.zipcode
+        assert response.complement == payload.complement
+        assert response.number == payload.number
+        assert response.latitude == payload.latitude
+        assert response.longitude == payload.longitude
