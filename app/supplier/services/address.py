@@ -2,10 +2,10 @@ from sqlalchemy.orm import Session
 
 from app.common.services.base import BaseService
 from app.supplier.repositories.address import AddressRepository
-from app.supplier.schemas.address import AddressCreate, AddressUpdate, AddressView
+from app.supplier.schemas.address import AddressCreate, AddressUpdate, Address
 
 
-class AddressService(BaseService[AddressCreate, AddressUpdate, AddressView]):
+class AddressService(BaseService[AddressCreate, AddressUpdate, Address]):
     db: Session
     repository: AddressRepository
 

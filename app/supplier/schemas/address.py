@@ -31,5 +31,5 @@ class AddressUpdate(AddressBase):
     longitude: Optional[float] = None
 
 
-class AddressView(AddressBase):
+class Address(AddressBase):
     id: UUID
