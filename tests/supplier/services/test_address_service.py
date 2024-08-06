@@ -5,6 +5,7 @@ from app.common.exceptions import RecordNotFoundException
 from app.common.schemas.states import StatesEnum
 from app.supplier.schemas.address import AddressCreate, Address, AddressUpdate
 from app.supplier.services.address import AddressService
+from unittest import mock
 
 
 @pytest.fixture
@@ -114,3 +115,34 @@ class TestAdressService:
     ):
         with pytest.raises(RecordNotFoundException):
             service.delete(id=9999)
+
+    def test_should_create_address_without_lat_long_on_payload(
+        self, service: AddressService
+    ):
+        latitude = 2
+        longitude = 3
+
+        coordinates = (latitude, longitude)
+        with mock.patch(
+            "app.common.client.google.GoogleClient.get_location_coordinates",
+            return_value=coordinates,
+        ):
+            payload: AddressCreate = AddressCreate(
+                city="Campina Grande",
+                state=StatesEnum.PB,
+                street="Avenida Marechal Floriano Peixoto",
+                zipcode="58434500",
+                complement="Perto do Trauma",
+                number="2132",
+            )
+
+            response = service.create(payload)
+
+            assert response.city == payload.city
+            assert response.state == payload.state
+            assert response.street == payload.street
+            assert response.zipcode == payload.zipcode
+            assert response.complement == payload.complement
+            assert response.number == payload.number
+            assert response.latitude == latitude
+            assert response.longitude == longitude
