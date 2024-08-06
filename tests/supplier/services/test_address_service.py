@@ -93,3 +93,7 @@ class TestAdressService:
         response = service.update(id=address.id, update=update_payload)
 
         assert response.city == update_payload.city
+
+    def test_should_raise_when_invalid_zipcode(self):
+        with pytest.raises(ValueError):
+            AddressUpdate(zipcode="69432")

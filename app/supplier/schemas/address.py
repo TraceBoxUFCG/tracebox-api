@@ -25,6 +25,8 @@ class AddressCreate(AddressBase):
 class AddressUpdate(AddressBase):
     city: Optional[str] = None
     state: Optional[StatesEnum] = None
+    street: Optional[str] = None
+    zipcode: Optional[ZipCode] = None
     number: Optional[str] = None
     complement: Optional[str] = None
     latitude: Optional[float] = None
