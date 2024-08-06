@@ -9,8 +9,8 @@ class AddressModel(Base, TableModel):
 
     city = Column(String, nullable=True)
     state = Column(Enum(StatesEnum), nullable=True)
-    street = Column(Enum(StatesEnum), nullable=True)
-    zipcode = Column(Enum(StatesEnum), nullable=True)
+    street = Column(String, nullable=True)
+    zipcode = Column(String, nullable=True)
     number = Column(String, nullable=True)
     complement = Column(String, nullable=True)
     latitude = Column(Float, nullable=False)
