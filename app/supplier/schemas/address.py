@@ -14,8 +14,8 @@ class AddressBase(BaseModel):
     zipcode: Optional[ZipCode] = None
     number: Optional[str] = None
     complement: Optional[str] = None
-    latitude: float
-    longitude: float
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
 
 
 class AddressCreate(AddressBase):
