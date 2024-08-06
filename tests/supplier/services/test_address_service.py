@@ -99,10 +99,18 @@ class TestAdressService:
         with pytest.raises(ValueError):
             AddressUpdate(zipcode="69432")
 
-    def test_should_raise_when_not_existing_address(self, service: AddressService):
+    def test_should_raise_when_updating_not_existing_address(
+        self, service: AddressService
+    ):
         with pytest.raises(RecordNotFoundException):
             update_payload: AddressUpdate = AddressUpdate(city="New City")
             service.update(id=9999, update=update_payload)
 
     def test_should_delete_address(self, service: AddressService, address: Address):
         assert service.delete(id=address.id) is True
+
+    def test_should_raise_when_deleting_not_existing_address(
+        self, service: AddressService
+    ):
+        with pytest.raises(RecordNotFoundException):
+            service.delete(id=9999)
