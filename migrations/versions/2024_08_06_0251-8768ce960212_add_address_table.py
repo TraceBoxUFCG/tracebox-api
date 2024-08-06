@@ -54,6 +54,8 @@ def upgrade() -> None:
         "address",
         sa.Column("city", sa.String(), nullable=True),
         sa.Column("state", ENUM(name="statesenum", create_type=False), nullable=True),
+        sa.Column("street", sa.String(), nullable=True),
+        sa.Column("zipcode", sa.String(), nullable=True),
         sa.Column("number", sa.String(), nullable=True),
         sa.Column("complement", sa.String(), nullable=True),
         sa.Column("latitude", sa.Float(), nullable=False),

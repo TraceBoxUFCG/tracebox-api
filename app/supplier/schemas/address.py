@@ -9,6 +9,8 @@ from app.common.schemas.states import StatesEnum
 class AddressBase(BaseModel):
     city: Optional[str] = None
     state: Optional[StatesEnum] = None
+    street: Optional[str] = None
+    zipcode: Optional[str] = None
     number: Optional[str] = None
     complement: Optional[str] = None
     latitude: float
