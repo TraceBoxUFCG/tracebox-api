@@ -7,6 +7,10 @@ JsonSchemaValue = Dict[str, Any]
 
 class Validator:
     @classmethod
+    def __get_validators__(cls):
+        yield cls.validate
+
+    @classmethod
     def __get_pydantic_core_schema__(
         cls,
         source,
