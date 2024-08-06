@@ -97,3 +97,6 @@ class TestAdressService:
     def test_should_raise_when_invalid_zipcode(self):
         with pytest.raises(ValueError):
             AddressUpdate(zipcode="69432")
+
+    def test_should_delete_address(self, service: AddressService, address: Address):
+        assert service.delete(id=address.id) is True
