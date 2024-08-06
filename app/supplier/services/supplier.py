@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
 
 from app.common.services.base import BaseService
-from app.supplier.repositories.address import AddressRepository
 from app.supplier.repositories.supplier import SupplierRepository
 from app.supplier.schemas.supplier import (
     Supplier,
@@ -19,12 +18,15 @@ class SupplierService(BaseService[SupplierCreate, SupplierUpdate, Supplier]):
 
     def __init__(self, db: Session):
         self.address_service = AddressService(db=db)
-        super().__init__(db=db, repository=AddressRepository)
+        super().__init__(db=db, repository=SupplierRepository)
         self.db = db
 
     def create(self, create: SupplierCreate) -> Supplier:
         created_address = self.address_service.create(create=create.address)
-
-        create = SupplierCreateId(**create, address_id=created_address.id)
+        create = SupplierCreateId(
+            address_id=created_address.id,
+            document=create.document,
+            business_name=create.business_name,
+        )
         supplier = self.repository.add(create_schema=create)
         return supplier

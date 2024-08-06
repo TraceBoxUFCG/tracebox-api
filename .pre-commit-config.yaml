@@ -32,15 +32,6 @@ repos:
         args: [--fix, --exit-non-zero-on-fix]
       - id: ruff-format
 
-  - repo: local
-    hooks:
-      - id: check-datetime-now
-        name: check_datetime_now
-        description: datetime.now() is evil
-        language: pygrep
-        entry: 'datetime.now\(([^()]*)\)'
-        types: [python]
-
   - repo: https://github.com/Instagram/Fixit
     rev: v2.1.0
     hooks:

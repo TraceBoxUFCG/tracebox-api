@@ -2,7 +2,6 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from app.common.schemas import omit
 from app.common.schemas.document import Document
 from app.supplier.schemas.address import Address, AddressCreate
 
@@ -10,14 +9,12 @@ from app.supplier.schemas.address import Address, AddressCreate
 class SupplierBase(BaseModel):
     document: Document
     business_name: str
-    address_id: int
 
 
 class SupplierCreateId(SupplierBase):
-    ...
+    address_id: int
 
 
-@omit("address_id")
 class SupplierCreate(SupplierBase):
     address: AddressCreate
 
@@ -27,6 +24,6 @@ class SupplierUpdate(BaseModel):
     document: Optional[Document] = None
 
 
-class Supplier(BaseModel):
+class Supplier(SupplierBase):
     id: int
     address: Address
