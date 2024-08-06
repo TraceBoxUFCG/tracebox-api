@@ -17,9 +17,6 @@ class AddressBase(BaseModel):
     latitude: float
     longitude: float
 
-    class Config:
-        validate_assignment = True
-
 
 class AddressCreate(AddressBase):
     ...
@@ -36,6 +33,3 @@ class AddressUpdate(AddressBase):
 
 class AddressView(AddressBase):
     id: UUID
-
-    class Config:
-        orm_mode = True
