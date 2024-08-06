@@ -1,6 +1,7 @@
 import pytest
 from sqlalchemy.orm import Session
 
+from app.common.exceptions import RecordNotFoundException
 from app.common.schemas.states import StatesEnum
 from app.supplier.schemas.address import AddressCreate, Address, AddressUpdate
 from app.supplier.services.address import AddressService
@@ -97,6 +98,11 @@ class TestAdressService:
     def test_should_raise_when_invalid_zipcode(self):
         with pytest.raises(ValueError):
             AddressUpdate(zipcode="69432")
+
+    def test_should_raise_when_not_existing_address(self, service: AddressService):
+        with pytest.raises(RecordNotFoundException):
+            update_payload: AddressUpdate = AddressUpdate(city="New City")
+            service.update(id=9999, update=update_payload)
 
     def test_should_delete_address(self, service: AddressService, address: Address):
         assert service.delete(id=address.id) is True
