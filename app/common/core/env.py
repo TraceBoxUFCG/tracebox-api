@@ -47,3 +47,5 @@ if not SQLALCHEMY_DATABASE_URL:
 
 MAX_OVERFLOW = config("MAX_OVERFLOW", default=40)
 POOL_SIZE = config("POOL_SIZE", default=30)
+
+GOOGLE_API_ADDRESS_KEY = config("GOOGLE_API_ADDRESS_KEY", default=None)

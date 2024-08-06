@@ -1,1 +1,1 @@
-from app.catalog.models import product  # noqa
+from app.supplier.models import address  # noqa

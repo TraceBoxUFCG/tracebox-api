@@ -80,7 +80,7 @@ class BaseRepository(Generic[T, ID]):
         return model
 
     def add(self, create_schema: pydantic.BaseModel) -> T:
-        created_model = self.model_class(**create_schema.dict())
+        created_model = self.model_class(**create_schema.model_dump())
         self.db.add(created_model)
         self.db.flush()
         self.db.refresh(created_model)
@@ -106,7 +106,7 @@ class BaseRepository(Generic[T, ID]):
         update_status = self.db.execute(
             update(self.model_class)
             .where(*self._make_filters(**kwargs))
-            .values(**update_schema.dict(exclude_unset=True, exclude_none=True))
+            .values(**update_schema.model_dump(exclude_unset=True, exclude_none=True))
         )
         if update_status.rowcount:
             return self.get_by_id(**kwargs)
@@ -118,13 +118,13 @@ class BulkOperations(Generic[CREATE, UPDATE]):
     def bulk_update(self, update_list: List[CREATE]):
         self.db.bulk_update_mappings(
             self.model_class,
-            [update.dict(exclude_unset=True) for update in update_list],
+            [update.model_dump(exclude_unset=True) for update in update_list],
         )
 
     def bulk_insert(self, create_list: List[UPDATE]):
         self.db.bulk_insert_mappings(
             self.model_class,
-            [create.dict(exclude_unset=True) for create in create_list],
+            [create.model_dump(exclude_unset=True) for create in create_list],
         )
 
     def bulk_upsert(
@@ -157,7 +157,7 @@ class BulkOperations(Generic[CREATE, UPDATE]):
         if creates:
             insert_stmt = (
                 insert(self.model_class)
-                .values([create_.dict() for create_ in creates])
+                .values([create_.model_dump() for create_ in creates])
                 .on_conflict_do_nothing(index_elements=[*(self.model_pk)])
             )
             self.db.execute(insert_stmt)
