@@ -35,9 +35,7 @@ class TestAdressService:
         assert response.latitude == payload.latitude
         assert response.longitude == payload.longitude
 
-    def test_sould_raise_exception_when_not_valid_zipcode(
-        self, service: AddressService
-    ):
+    def test_sould_raise_exception_when_not_valid_zipcode(self):
         with pytest.raises(ValueError):
             AddressCreate(
                 city="Campina Grande",
@@ -49,3 +47,26 @@ class TestAdressService:
                 latitude=0.23,
                 longitude=0.23,
             )
+
+    def test_should_create_with_none_fields(self, service: AddressService):
+        payload: AddressCreate = AddressCreate(
+            city=None,
+            state=None,
+            street=None,
+            zipcode=None,
+            complement=None,
+            number=None,
+            latitude=0.23,
+            longitude=0.23,
+        )
+
+        response = service.create(payload)
+
+        assert response.city == payload.city
+        assert response.state == payload.state
+        assert response.street == payload.street
+        assert response.zipcode == payload.zipcode
+        assert response.complement == payload.complement
+        assert response.number == payload.number
+        assert response.latitude == payload.latitude
+        assert response.longitude == payload.longitude
