@@ -1,3 +1,4 @@
+from fastapi.testclient import TestClient
 import pytest
 from sqlalchemy import create_engine
 from app.common.core.settings import settings
@@ -9,7 +10,9 @@ from alembic.config import Config
 from sqlalchemy.orm.session import Session
 from sqlalchemy_utils import create_database, database_exists
 
+from app.main import app
 
+from app.common.dependencies import get_session
 from tests.supplier.factories import make_address, make_supplier  # noqa: F401
 
 engine = create_engine(
@@ -67,3 +70,14 @@ def session():
     session.close()
     transaction.rollback()
     connection.close()
+
+
+@pytest.fixture()
+def client(session):
+    def override_get_session():
+        yield session
+
+    app.dependency_overrides[get_session] = override_get_session
+    test_client = TestClient(app)
+    yield test_client
+    del app.dependency_overrides[get_session]
