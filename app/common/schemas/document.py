@@ -1,8 +1,10 @@
 import re
-from app.common.schemas.validator_types import Validator
+from typing_extensions import Any
+from pydantic import GetCoreSchemaHandler
+from pydantic_core import CoreSchema, core_schema
 
 
-class CPF(Validator):
+class CPF:
     def validate(self, doc: str = "") -> bool:
         if len(doc) != 11:
             return False
@@ -45,7 +47,7 @@ class CPF(Validator):
         return len(set(doc)) == 1
 
 
-class CNPJ(Validator):
+class CNPJ:
     def __init__(self):
         self.weights_first = list(range(5, 1, -1)) + list(range(9, 1, -1))
         self.weights_second = list(range(6, 1, -1)) + list(range(9, 1, -1))
@@ -94,7 +96,13 @@ class CNPJ(Validator):
         return str(sum)
 
 
-class Document(Validator):
+class Document(str):
+    @classmethod
+    def __get_pydantic_core_schema__(
+        cls, source_type: Any, handler: GetCoreSchemaHandler
+    ) -> CoreSchema:
+        return core_schema.no_info_after_validator_function(cls.validate, handler(str))
+
     @classmethod
     def validate(cls, doc: str) -> str:
         doc = re.sub("[^0-9]", "", doc)
