@@ -12,7 +12,7 @@ class BaseClient:
         self.headers = {"content-type": "application/json"}
         self.client.headers.update(self.headers)
 
-    def get_by_id(self, id: UUID | str):
+    def get_by_id(self, id: int | str):
         return self.client.get(f"/{self.path}/{id}")
 
     def get_all(self, **kwargs):

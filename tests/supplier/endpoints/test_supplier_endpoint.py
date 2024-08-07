@@ -182,3 +182,17 @@ class TestSupplierService:
 
         response = client.create(payload)
         assert response.status_code != 200
+
+    def test_should_return_supplier_by_id(self, setup, client: SupplierClient):
+        response = client.get_by_id(id=self.supplier.id)
+        supplier = response.json()
+
+        assert response.status_code == 200
+        assert supplier["id"] == self.supplier.id
+
+    def test_should_raise_when_dont_find_supplier(self, client: SupplierClient):
+        response = client.get_by_id(id=20)
+        data = response.json()
+
+        assert response.status_code != 200
+        assert data["detail"] == "Entity not found"
