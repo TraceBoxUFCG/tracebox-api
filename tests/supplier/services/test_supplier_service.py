@@ -12,28 +12,6 @@ def service(session: Session):
     return SupplierService(db=session)
 
 
-@pytest.fixture
-def address(service):
-    address: AddressCreate = AddressCreate(
-        city="Campina Grande",
-        state=StatesEnum.PB,
-        street="Avenida Marechal Floriano Peixoto",
-        zipcode="58434500",
-        complement="Perto do Trauma",
-        number="2132",
-        latitude=0.23,
-        longitude=0.23,
-    )
-
-    payload: SupplierCreate = SupplierCreate(
-        document="12395321486",
-        business_name="Antonio Bertino de Vasconcelos Cabral Neto",
-        address=address,
-    )
-
-    return service.create(payload)
-
-
 class TestSupplierService:
     def test_should_create_supplier(self, service: SupplierService):
         address: AddressCreate = AddressCreate(

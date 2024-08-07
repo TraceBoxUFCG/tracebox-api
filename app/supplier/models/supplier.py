@@ -1,6 +1,7 @@
 from sqlalchemy import Column, ForeignKey, Index, String, text
 from app.common.database.database import Base
 from app.common.models.table_model import TableModel
+from sqlalchemy.orm import relationship
 
 
 class SupplierModel(Base, TableModel):
@@ -22,8 +23,8 @@ class SupplierModel(Base, TableModel):
         index=True,
     )
 
-    # address = relationship(
-    #     "AddressModel",
-    #     primaryjoin="and_(AddressModel.id==SupplierModel.address_id, AddressModel.deleted_at.is_(None))",
-    #     backref="address",
-    # )
+    address = relationship(
+        "AddressModel",
+        primaryjoin="and_(AddressModel.id==SupplierModel.address_id, AddressModel.deleted_at.is_(None))",
+        backref="address",
+    )
