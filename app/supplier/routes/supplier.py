@@ -13,3 +13,10 @@ def create_supplier(
     payload: SupplierCreate, service: SupplierService = Depends(get_supplier_service)
 ):
     return service.create(create=payload)
+
+
+@router.get("/{id}", response_model=Supplier)
+def get_supplier_by_id(
+    id: int, service: SupplierService = Depends(get_supplier_service)
+):
+    return service.get_by_id(id=id)
