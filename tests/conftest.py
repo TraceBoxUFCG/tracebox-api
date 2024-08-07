@@ -9,6 +9,9 @@ from alembic.config import Config
 from sqlalchemy.orm.session import Session
 from sqlalchemy_utils import create_database, database_exists
 
+
+from tests.supplier.factories import make_address, make_supplier  # noqa: F401
+
 engine = create_engine(
     settings.database.database_url,
     echo=settings.database.echo,

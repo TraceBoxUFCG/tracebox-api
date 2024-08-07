@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Generic, List, Optional, TypeVar, Union
 from uuid import UUID
 
@@ -91,7 +91,7 @@ class BaseRepository(Generic[T, ID]):
             update(self.model_class)
             .where(*self._make_filters(**kwargs))
             .where(self.model_class.deleted_at.is_(None))
-            .values({"deleted_at": datetime.utcnow()})
+            .values({"deleted_at": datetime.now(tz=timezone.utc)})
         )
         if update_status.rowcount:
             return True

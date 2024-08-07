@@ -1,1 +1,1 @@
-from app.supplier.models import address  # noqa
+from app.supplier.models import address, supplier  # noqa
