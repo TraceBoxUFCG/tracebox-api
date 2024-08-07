@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from app.common.services.base import BaseService
@@ -9,6 +10,8 @@ from app.supplier.schemas.supplier import (
     SupplierUpdate,
 )
 from app.supplier.services.address import AddressService
+from psycopg2.errors import UniqueViolation
+from sqlalchemy.exc import IntegrityError
 
 
 class SupplierService(BaseService[SupplierCreate, SupplierUpdate, Supplier]):
@@ -28,5 +31,11 @@ class SupplierService(BaseService[SupplierCreate, SupplierUpdate, Supplier]):
             document=create.document,
             business_name=create.business_name,
         )
-        supplier = self.repository.add(create_schema=create)
-        return supplier
+        try:
+            return self.repository.add(create_schema=create)
+        except IntegrityError as e:
+            if isinstance(e.orig, UniqueViolation):
+                raise HTTPException(
+                    status_code=409,
+                    detail=f"Supplier with document {create.document} already exists",
+                )
