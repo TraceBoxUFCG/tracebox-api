@@ -26,6 +26,9 @@ class BaseService(Generic[CREATE, UPDATE, RETURN]):
     def get_all(self) -> List[RETURN]:
         return self.repository.get_all()
 
+    def get_all_for_pagination(self):
+        return self.repository.default_query
+
     def create(self, create: CREATE) -> RETURN:
         return self.repository.add(create)
 
