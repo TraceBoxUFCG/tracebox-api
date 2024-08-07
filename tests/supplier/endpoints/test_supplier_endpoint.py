@@ -196,3 +196,19 @@ class TestSupplierService:
 
         assert response.status_code != 200
         assert data["detail"] == "Entity not found"
+
+    def test_get_all_supplier(self, setup, client: SupplierClient):
+        response = client.get_all()
+        data = response.json()
+
+        assert response.status_code == 200
+        assert len(data["items"]) == 1
+
+    def test_get_all_suppliers_without_suppliers_registered(
+        self, client: SupplierClient
+    ):
+        response = client.get_all()
+        data = response.json()
+
+        assert response.status_code == 200
+        assert len(data["items"]) == 0
