@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from fastapi_pagination import Page
 
 from app.supplier.deps import get_supplier_service
-from app.supplier.schemas.supplier import Supplier, SupplierCreate
+from app.supplier.schemas.supplier import Supplier, SupplierCreate, SupplierListParams
 from app.supplier.services.supplier import SupplierService
 from fastapi_pagination.ext.sqlalchemy import paginate
 
@@ -18,8 +18,11 @@ def create_supplier(
 
 
 @router.get("/", response_model=Page[Supplier])
-def get_all_suppliers(service: SupplierService = Depends(get_supplier_service)):
-    return paginate(service.get_all_for_pagination())
+def get_all_suppliers(
+    params: SupplierListParams = Depends(),
+    service: SupplierService = Depends(get_supplier_service),
+):
+    return paginate(service.get_all_for_pagination(params=params))
 
 
 @router.get("/{id}", response_model=Supplier)

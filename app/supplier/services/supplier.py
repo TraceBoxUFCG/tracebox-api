@@ -2,11 +2,12 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from app.common.services.base import BaseService
-from app.supplier.repositories.supplier import SupplierRepository
+from app.supplier.repositories.supplier import SupplierFinder, SupplierRepository
 from app.supplier.schemas.supplier import (
     Supplier,
     SupplierCreate,
     SupplierCreateId,
+    SupplierListParams,
     SupplierUpdate,
 )
 from app.supplier.services.address import AddressService
@@ -39,3 +40,14 @@ class SupplierService(BaseService[SupplierCreate, SupplierUpdate, Supplier]):
                     status_code=409,
                     detail=f"Supplier with document {create.document} already exists",
                 )
+
+    def _get_all_query(self, params: SupplierListParams) -> SupplierFinder:
+        filtered = self.repository.finder
+
+        if params.q:
+            filtered = filtered.search_by_query_criterias(target=params.q)
+
+        return filtered
+
+    def get_all_for_pagination(self, params: SupplierListParams):
+        return self._get_all_query(params=params).query
