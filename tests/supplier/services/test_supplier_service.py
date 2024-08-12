@@ -2,6 +2,7 @@ from fastapi import HTTPException
 import pytest
 from sqlalchemy.orm import Session
 
+from app.common.exceptions import RecordNotFoundException
 from app.common.schemas.states import StatesEnum
 from app.supplier.models.supplier import SupplierModel
 from app.supplier.schemas.address import AddressCreate
@@ -103,3 +104,17 @@ class TestSupplierService:
             )
 
             service.create(payload)
+
+    def test_should_delete_supplier(self, setup, service: SupplierService):
+        supplier = service.get_by_id(id=self.supplier.id)
+        assert supplier is not None
+
+        service.delete(id=self.supplier.id)
+        with pytest.raises(RecordNotFoundException):
+            service.get_by_id(id=self.supplier.id)
+
+    def test_should_raise_when_delete_not_existing_supplier(
+        self, setup, service: SupplierService
+    ):
+        with pytest.raises(RecordNotFoundException):
+            service.delete(id=self.supplier.id * 10)
