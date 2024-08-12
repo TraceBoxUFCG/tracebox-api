@@ -1,6 +1,7 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from fastapi import Query
+from pydantic import BaseModel, Field
 
 from app.common.schemas.document import Document
 from app.supplier.schemas.address import Address, AddressCreate
@@ -27,3 +28,9 @@ class SupplierUpdate(BaseModel):
 class Supplier(SupplierBase):
     id: int
     address: Address
+
+
+class SupplierListParams(BaseModel):
+    q: Optional[str] = Field(
+        Query(None, description="Simple search by Supplier business name")
+    )
