@@ -212,3 +212,17 @@ class TestSupplierService:
 
         assert response.status_code == 200
         assert len(data["items"]) == 0
+
+    def test_delete_supplier(self, setup, client: SupplierClient):
+        response = client.delete(id=self.supplier.id)
+
+        assert response.status_code == 200
+
+    def test_should_raise_when_delete_not_existing_supplier(
+        self, setup, client: SupplierClient
+    ):
+        response = client.delete(id=self.supplier.id * 20)
+        data = response.json()
+
+        assert response.status_code != 200
+        assert data["detail"] == "Entity not found"

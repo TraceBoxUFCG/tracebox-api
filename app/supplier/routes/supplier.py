@@ -29,6 +29,6 @@ def get_supplier_by_id(
     return service.get_by_id(id=id)
 
 
-@router.delete("/{id}", response_model=Supplier)
+@router.delete("/{id}")
 def delete_supplier(id: int, service: SupplierService = Depends(get_supplier_service)):
     return service.delete(id=id)

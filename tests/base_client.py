@@ -1,6 +1,5 @@
 from json import dumps
 from typing import Optional
-from uuid import UUID
 
 from fastapi.testclient import TestClient
 
@@ -28,26 +27,26 @@ class BaseClient:
             "POST", f"/{self.path}/", content=data, headers=headers
         )
 
-    def update(self, id: UUID | str, data: dict | list, headers: Optional[dict] = None):
+    def update(self, id: int | str, data: dict | list, headers: Optional[dict] = None):
         if type(data) in [dict, list]:
             data = dumps(data)
         return self.client.request(
             "PUT", f"/{self.path}/{id}", content=data, headers=headers
         )
 
-    def patch(self, id: UUID, data: dict | list, headers: Optional[dict] = None):
+    def patch(self, id: int, data: dict | list, headers: Optional[dict] = None):
         if type(data) in [dict, list]:
             data = dumps(data)
         return self.client.request(
             "PATCH", f"/{self.path}/{id}", content=data, headers=headers
         )
 
-    def put(self, id: UUID, data: dict | list, headers: Optional[dict] = None):
+    def put(self, id: int, data: dict | list, headers: Optional[dict] = None):
         if type(data) in [dict, list]:
             data = dumps(data)
         return self.client.request(
             "PUT", f"/{self.path}/{id}", content=data, headers=headers
         )
 
-    def delete(self, id: UUID | str):
+    def delete(self, id: int | str):
         return self.client.delete(f"/{self.path}/{id}")
