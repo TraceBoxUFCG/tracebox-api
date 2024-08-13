@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from app.catalog.repositories.product import PackagingRepository
+from app.catalog.repositories.packaging import PackagingRepository
 from app.catalog.schemas.packaging import Packaging, PackagingCreate, PackagingUpdate
 
 from app.common.services.base import BaseService

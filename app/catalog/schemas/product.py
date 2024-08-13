@@ -4,6 +4,8 @@ from typing import Optional
 from fastapi import Query
 from pydantic import BaseModel, Field
 
+from app.catalog.schemas.packaging import Packaging, PackagingCreate
+
 
 class ProductBase(BaseModel):
     name: str
@@ -11,7 +13,11 @@ class ProductBase(BaseModel):
 
 
 class ProductCreate(ProductBase):
-    ...
+    packaging: PackagingCreate
+
+
+class ProductCreateId(ProductBase):
+    packaging_id: int
 
 
 class ProductUpdate(BaseModel):
@@ -21,6 +27,7 @@ class ProductUpdate(BaseModel):
 
 class Product(ProductBase):
     id: int
+    packaging: Packaging
 
 
 class ProductListParams(BaseModel):
