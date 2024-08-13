@@ -28,3 +28,6 @@ test:
 
 lint:
 	poetry run pre-commit run --all-files
+
+start-docker: .env ## Start the entire project alongside its dependencies with docker compose locally
+	@docker compose up -d
