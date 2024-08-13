@@ -9,7 +9,7 @@ class PackagingModel(Base, TableModel):
 
     quantity = Column(Numeric, nullable=False)
     unit = Column(Enum(UnitEnum), nullable=False)
-    descripton = Column(
+    description = Column(
         String,
         Computed("'PAC(' || quantity || enum_to_text(unit) || ')'"),
     )

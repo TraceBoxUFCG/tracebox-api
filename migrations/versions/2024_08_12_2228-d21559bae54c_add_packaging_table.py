@@ -42,7 +42,7 @@ def upgrade() -> None:
         sa.Column("quantity", sa.Numeric(), nullable=False),
         sa.Column("unit", ENUM(name="unitenum", create_type=False), nullable=False),
         sa.Column(
-            "descripton",
+            "description",
             sa.String(),
             sa.Computed(
                 "'PAC(' || quantity || enum_to_text(unit) || ')'",
