@@ -26,3 +26,11 @@ def get_all_product_variety(
     service: ProductVarietyService = Depends(get_product_variety_service),
 ):
     return paginate(service.get_all_for_pagination(params=params))
+
+
+@router.delete("/{id}")
+def delete_product_variety(
+    id: int,
+    service: ProductVarietyService = Depends(get_product_variety_service),
+):
+    service.delete(id=id)
