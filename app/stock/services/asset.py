@@ -7,11 +7,12 @@ import qrcode
 from sqlalchemy.orm import Session
 
 from app.common.services.base import BaseService
-from app.stock.repositories.asset import AssetRepository
+from app.stock.repositories.asset import AssetFinder, AssetRepository
 from app.stock.schemas.asset import (
     Asset,
     AssetCreate,
     AssetGeneratePayload,
+    AssetListParams,
     AssetUpdate,
 )
 from xhtml2pdf import pisa
@@ -71,3 +72,14 @@ class AssetService(BaseService[AssetCreate, AssetUpdate, Asset]):
 
         pdf_buffer.seek(0)
         return pdf_buffer
+
+    def _get_all_query(self, params: AssetListParams) -> AssetFinder:
+        filtered = self.repository.finder
+
+        if params.q:
+            filtered = filtered.search_by_query_criterias(target=params.q)
+
+        return filtered
+
+    def get_all_for_pagination(self, params: AssetListParams):
+        return self._get_all_query(params=params).query

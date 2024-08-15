@@ -1,7 +1,8 @@
 from enum import Enum
 from typing import Optional
 
-from pydantic import BaseModel
+from fastapi import Query
+from pydantic import BaseModel, Field
 
 from app.catalog.schemas.packaging import Packaging
 
@@ -31,4 +32,14 @@ class AssetUpdate(BaseModel):
 
 class Asset(AssetBase):
     id: int
-    packaging: Packaging
+    packaging: Optional[Packaging] = None
+
+
+class AssetListParams(BaseModel):
+    q: Optional[str] = Field(Query(None, description="Simple search by asset id"))
+
+
+class SupplierListParams(BaseModel):
+    q: Optional[str] = Field(
+        Query(None, description="Simple search by Supplier business name")
+    )
