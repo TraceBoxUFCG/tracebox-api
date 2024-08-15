@@ -10,7 +10,7 @@ class ProductVarietyBase(BaseModel):
 
 
 class ProductVarietyCreate(ProductVarietyBase):
-    id_product: int
+    product_id: int
 
 
 class ProductVarietyUpdate(BaseModel):

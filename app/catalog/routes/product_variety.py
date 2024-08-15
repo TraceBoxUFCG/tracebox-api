@@ -17,7 +17,7 @@ async def import_product_variety(
     file: UploadFile = File(),
     service: ProductVarietyService = Depends(get_product_variety_service),
 ):
-    return service.import_from_csv(file=file)
+    return await service.import_from_csv(file=file)
 
 
 @router.get("/", response_model=Page[ProductVariety])

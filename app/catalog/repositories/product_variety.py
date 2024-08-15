@@ -27,7 +27,7 @@ class ProductVarietyFinder(BaseFinder[ProductVarietyModel]):
     def search_by_query_criterias(self, target: str):
         name_query = self.filtered_by_name_ilike(target=target).query
 
-        return ProductVarietyModel(name_query)
+        return ProductVarietyFinder(name_query)
 
 
 class ProductVarietyRepository(

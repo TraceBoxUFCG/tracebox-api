@@ -67,7 +67,7 @@ class ProductVarietyService(
 
         for row in reader:
             product_variety = ProductVarietyCreate(
-                id_product=int(row["id_product"]), name=row["name"]
+                product_id=int(row["product_id"]), name=row["name"]
             )
             product_varieties.append(product_variety)
 
