@@ -60,7 +60,7 @@ class AssetService(BaseService[AssetCreate, AssetUpdate, Asset]):
         return (img_str, id)
 
     def generate_asset_tag_pdf(self, qr_codes: List[tuple[str, int]]) -> BytesIO:
-        env = Environment(loader=FileSystemLoader("./templates"))
+        env = Environment(loader=FileSystemLoader("./app/stock/templates"))
         template = env.get_template("tags_template.html")
         context = {"qr_codes": qr_codes}
         html = template.render(context)
