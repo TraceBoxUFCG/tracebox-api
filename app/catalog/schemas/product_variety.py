@@ -1,4 +1,6 @@
-from pydantic import BaseModel
+from typing import Optional
+from fastapi import Query
+from pydantic import BaseModel, Field
 
 from app.catalog.schemas.product import Product
 
@@ -18,3 +20,9 @@ class ProductVarietyUpdate(BaseModel):
 class ProductVariety(ProductVarietyBase):
     id: int
     product: Product
+
+
+class ProductVarietyListParams(BaseModel):
+    q: Optional[str] = Field(
+        Query(None, description="Simple search by product variety name")
+    )
