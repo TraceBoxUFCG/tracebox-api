@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from sqlalchemy import cast
 import sqlalchemy
 from sqlalchemy.orm import Session
@@ -33,7 +31,7 @@ class AssetFinder(BaseFinder[AssetModel]):
 
 
 class AssetRepository(
-    BaseRepository[AssetModel, UUID],
+    BaseRepository[AssetModel, int],
 ):
     finder: AssetFinder
 

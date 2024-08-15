@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from sqlalchemy.orm import Session
 
 from app.common.repositories.base import BaseFinder, BaseRepository
@@ -29,7 +27,7 @@ class SupplierFinder(BaseFinder[SupplierModel]):
 
 
 class SupplierRepository(
-    BaseRepository[SupplierModel, UUID],
+    BaseRepository[SupplierModel, int],
 ):
     finder: SupplierFinder
 

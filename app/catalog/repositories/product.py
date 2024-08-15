@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from sqlalchemy.orm import Session
 
 from app.catalog.models.product import ProductModel
@@ -25,7 +23,7 @@ class ProductFinder(BaseFinder[ProductModel]):
 
 
 class ProductRepository(
-    BaseRepository[ProductModel, UUID],
+    BaseRepository[ProductModel, int],
 ):
     finder: ProductFinder
 

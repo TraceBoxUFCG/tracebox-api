@@ -1,3 +1,3 @@
 from app.supplier.models import address, supplier  # noqa
-from app.catalog.models import product, packaging  # noqa
+from app.catalog.models import product, packaging, product_variety  # noqa
 from app.stock.models import asset  # noqa

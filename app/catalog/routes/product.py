@@ -1,12 +1,11 @@
 from fastapi import APIRouter, Depends
 from fastapi_pagination import Page
 
+from app.catalog.deps import get_product_service
 from app.catalog.schemas.product import Product, ProductCreate, ProductListParams
 from app.catalog.services.product import ProductService
 
 from fastapi_pagination.ext.sqlalchemy import paginate
-
-from app.supplier.deps import get_product_service
 
 
 router = APIRouter()
