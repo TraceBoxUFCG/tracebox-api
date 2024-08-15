@@ -21,7 +21,7 @@ def generate_tags(
     )
 
 
-@router.get("{id}/tag/")
+@router.get("/{id}/tag/")
 def get_asset_tag(id: int, service: AssetService = Depends(get_asset_service)):
     tags_pdf = service.generate_assets_tags(list_of_ids=[id])
 
