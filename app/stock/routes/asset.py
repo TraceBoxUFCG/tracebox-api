@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends
 from fastapi.responses import StreamingResponse
 from fastapi_pagination import Page
 
+from app.stock.deps import get_asset_service
 from app.stock.schemas.asset import Asset, AssetGeneratePayload, AssetListParams
 from app.stock.services.asset import AssetService
-from app.supplier.deps import get_asset_service
 from fastapi_pagination.ext.sqlalchemy import paginate
 
 router = APIRouter()
