@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .qr-code-row {
+            margin-bottom: 20px;
+            width: 100%;
+            border: 2px dashed black;
+        }
+        .qr-code {
+            vertical-align: middle;
+            margin-right: 20px;
+        }
+        .id {
+            font-size: 50px;
+        }
+    </style>
+</head>
+<body>
+    {% for qr_code, id in qr_codes %}
+    <div class="qr-code-row">
+        <img class="qr-code" src="data:image/png;base64,{{ qr_code }}" alt="QR Code {{ id }}">
+        <span class="id">ID: {{ id }}</span>
+    </div>
+    {% endfor %}
+</body>
+</html>

@@ -16,7 +16,7 @@ class AssetBase(BaseModel):
     status: AssetStatusEnum
 
 
-class AssetCreate(AssetBase):
+class AssetCreate(BaseModel):
     packaging_id: Optional[int] = None
 
 
