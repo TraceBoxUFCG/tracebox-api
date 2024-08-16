@@ -23,7 +23,7 @@ def upgrade() -> None:
         "CONFIRMED",
         "RECEIVED",
         "LOTTED",
-        name="purchaseorderstatausenum",
+        name="purchaseorderstatusenum",
         create_type=True,
     )
     purchase_order_status_enum.create(op.get_bind(), checkfirst=False)
@@ -34,7 +34,7 @@ def upgrade() -> None:
         sa.Column("expected_arrival_date", sa.Date(), nullable=False),
         sa.Column(
             "status",
-            ENUM(name="purchaseorderstatausenum", create_type=False),
+            ENUM(name="purchaseorderstatusenum", create_type=False),
             server_default="DRAFT",
             nullable=False,
         ),
@@ -62,4 +62,4 @@ def upgrade() -> None:
 def downgrade() -> None:
     op.drop_index(op.f("ix_purchase_order_supplier_id"), table_name="purchase_order")
     op.drop_table("purchase_order")
-    op.execute("DROP TYPE purchaseorderstatausenum")
+    op.execute("DROP TYPE purchaseorderstatusenum")

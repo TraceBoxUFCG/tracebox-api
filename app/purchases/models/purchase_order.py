@@ -28,6 +28,7 @@ class PurchaseOrderModel(Base, TableModel):
         nullable=False,
         server_default=PurchaseOrderStatusEnum.DRAFT,
     )
+
     supplier = relationship(
         "SupplierModel",
         primaryjoin="and_(SupplierModel.id==PurchaseOrderModel.supplier_id, SupplierModel.deleted_at.is_(None))",
