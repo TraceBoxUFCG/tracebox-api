@@ -52,7 +52,9 @@ class PurchaseOrderFinder(BaseFinder[PurchaseOrderModel]):
         self.base_query = self.base_query.join(
             SupplierModel, SupplierModel.id == PurchaseOrderModel.supplier_id
         ).filter(SupplierModel.deleted_at.is_(None))
-        business_name_query = self.filtered_by_name_ilike(target=target).base_query
+        business_name_query = self.filtered_by_supplier_business_name_ilike(
+            target=target
+        ).base_query
 
         return PurchaseOrderFinder(business_name_query)
 
