@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 
 from app.purchases.schemas.purchase_order_item import (
     PurchaseOrderItem,
-    PurchaseOrderItemCreateBody,
+    PurchaseOrderItemCreateOrUpdate,
 )
 from app.supplier.schemas.supplier import Supplier
 
@@ -26,11 +26,17 @@ class PurchaseOrderBase(BaseModel):
 class PurchaseOrderCreate(BaseModel):
     expected_arrival_date: date
     supplier_id: int
-    items: List[PurchaseOrderItemCreateBody]
+
+
+class PurchaseOrderCreateOrUpdate(BaseModel):
+    id: Optional[int] = None
+    expected_arrival_date: date
+    supplier_id: int
+    items: List[PurchaseOrderItemCreateOrUpdate]
 
 
 class PurchaseOrderUpdate(BaseModel):
-    ...
+    expected_arrival_date: Optional[date] = None
 
 
 class PurchaseOrder(PurchaseOrderBase):

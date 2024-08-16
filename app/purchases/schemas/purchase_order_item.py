@@ -1,4 +1,5 @@
 from decimal import Decimal
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -10,8 +11,10 @@ class PurchaseOrderItemBase(BaseModel):
     unit_price: Decimal
 
 
-class PurchaseOrderItemCreateBody(PurchaseOrderItemBase):
+class PurchaseOrderItemCreateOrUpdate(PurchaseOrderItemBase):
+    id: Optional[int] = None
     product_variety_id: int
+    purchase_order_id: int
 
 
 class PurchaseOrderItemCreate(PurchaseOrderItemBase):
@@ -20,7 +23,8 @@ class PurchaseOrderItemCreate(PurchaseOrderItemBase):
 
 
 class PurchaseOrderItemUpdate(BaseModel):
-    ...
+    boxes_quantity: Optional[int] = None
+    unit_price: Optional[Decimal] = None
 
 
 class PurchaseOrderItem(PurchaseOrderItemBase):
