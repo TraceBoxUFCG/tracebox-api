@@ -39,7 +39,9 @@ class PurchaseOrderService(
             )
 
             [
-                self.purchase_order_item_service.place(item=item)
+                self.purchase_order_item_service.place(
+                    purchase_order_id=existing_order.id, item=item
+                )
                 for item in create_or_update.items
             ]
 

@@ -13,8 +13,8 @@ class PurchaseOrderItemBase(BaseModel):
 
 class PurchaseOrderItemCreateOrUpdate(PurchaseOrderItemBase):
     id: Optional[int] = None
+    purchase_order_id: Optional[int] = None
     product_variety_id: int
-    purchase_order_id: int
 
 
 class PurchaseOrderItemCreate(PurchaseOrderItemBase):
