@@ -13,14 +13,18 @@ class PurchaseOrderItemService(
     BaseService[PurchaseOrderItemCreate, PurchaseOrderItemUpdate, PurchaseOrderItem]
 ):
     repository: PurchaseOrdeItemRepository
+    db: Session
 
     def __init__(self, db: Session):
         super().__init__(db=db, repository=PurchaseOrdeItemRepository)
+        self.db = db
 
     def place(
         self, purchase_order_id: int, create_or_update: PurchaseOrderItemCreateOrUpdate
     ) -> PurchaseOrderItem:
-        existing_item = self.get_by_id(id=create_or_update.id)
+        existing_item = (
+            self.get_by_id(id=create_or_update.id) if create_or_update.id else None
+        )
 
         if existing_item:
             update_data = PurchaseOrderItemUpdate(
@@ -33,6 +37,6 @@ class PurchaseOrderItemService(
                 boxes_quantity=create_or_update.boxes_quantity,
                 unit_price=create_or_update.unit_price,
                 product_variety_id=create_or_update.product_variety_id,
-                purchase_order_id=create_or_update.purchase_order_id,
+                purchase_order_id=purchase_order_id,
             )
             return self.create(create=create_data)

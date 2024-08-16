@@ -18,15 +18,19 @@ from app.purchases.services.purchase_order_item import PurchaseOrderItemService
 class PurchaseOrderService(
     BaseService[PurchaseOrderCreate, PurchaseOrderUpdate, PurchaseOrder]
 ):
+    db: Session
     repository: PurchaseOrderRepository
     purchase_order_item_service: PurchaseOrderItemService
 
     def __init__(self, db: Session):
         super().__init__(db=db, repository=PurchaseOrderRepository)
-        self.purchase_order_item_service = PurchaseOrderItemService()
+        self.db = db
+        self.purchase_order_item_service = PurchaseOrderItemService(db=db)
 
     def place(self, create_or_update: PurchaseOrderCreateOrUpdate) -> PurchaseOrder:
-        existing_order = self.get_by_id(id=create_or_update.id)
+        existing_order = (
+            self.get_by_id(id=create_or_update.id) if create_or_update.id else None
+        )
 
         if existing_order:
             if existing_order.status != PurchaseOrderStatusEnum.DRAFT:
@@ -40,7 +44,7 @@ class PurchaseOrderService(
 
             [
                 self.purchase_order_item_service.place(
-                    purchase_order_id=existing_order.id, item=item
+                    purchase_order_id=existing_order.id, create_or_update=item
                 )
                 for item in create_or_update.items
             ]
