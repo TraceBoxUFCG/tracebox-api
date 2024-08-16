@@ -42,3 +42,7 @@ class AssetRepository(
             finder=AssetFinder,
             db=db,
         )
+
+    @property
+    def default_query(self):
+        return super().default_query.order_by(AssetModel.packaging_id)

@@ -4,7 +4,7 @@ from typing import Optional
 from fastapi import Query
 from pydantic import BaseModel, Field
 
-from app.catalog.schemas.packaging import Packaging
+from app.catalog.schemas.product import Product
 
 
 class AssetStatusEnum(str, Enum):
@@ -32,7 +32,7 @@ class AssetUpdate(BaseModel):
 
 class Asset(AssetBase):
     id: int
-    packaging: Optional[Packaging] = None
+    product: Optional[Product] = None
 
 
 class AssetListParams(BaseModel):
