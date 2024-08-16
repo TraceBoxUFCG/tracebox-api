@@ -9,7 +9,7 @@ from sqlalchemy.orm import relationship
 
 from app.common.database.database import Base
 from app.common.models.table_model import TableModel
-from app.purchases.schemas.purchase_order import PurchaseStatusEnum
+from app.purchases.schemas.purchase_order import PurchaseOrderStatusEnum
 
 
 class PurchaseOrderModel(Base, TableModel):
@@ -24,9 +24,9 @@ class PurchaseOrderModel(Base, TableModel):
     expected_arrival_date = Column(Date, nullable=False)
 
     status = Column(
-        Enum(PurchaseStatusEnum),
+        Enum(PurchaseOrderStatusEnum),
         nullable=False,
-        server_default=PurchaseStatusEnum.DRAFT,
+        server_default=PurchaseOrderStatusEnum.DRAFT,
     )
     supplier = relationship(
         "SupplierModel",

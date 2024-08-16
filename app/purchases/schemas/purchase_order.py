@@ -1,8 +1,8 @@
 from datetime import date
+from enum import Enum
 from typing import List, Optional
 from fastapi import Query
 from pydantic import BaseModel, Field
-from sqlalchemy import Enum
 
 from app.purchases.schemas.purchase_order_item import (
     PurchaseOrderItem,
@@ -11,7 +11,7 @@ from app.purchases.schemas.purchase_order_item import (
 from app.supplier.schemas.supplier import Supplier
 
 
-class PurchaseStatusEnum(str, Enum):
+class PurchaseOrderStatusEnum(str, Enum):
     DRAFT = "DRAFT"
     CONFIRMED = "CONFIRMED"
     RECEIVED = "RECEIVED"
@@ -20,10 +20,11 @@ class PurchaseStatusEnum(str, Enum):
 
 class PurchaseOrderBase(BaseModel):
     expected_arrival_date: date
-    status: PurchaseStatusEnum
+    status: PurchaseOrderStatusEnum
 
 
-class PurchaseOrderCreate(PurchaseOrderBase):
+class PurchaseOrderCreate(BaseModel):
+    expected_arrival_date: date
     supplier_id: int
     items: List[PurchaseOrderItemCreateBody]
 
