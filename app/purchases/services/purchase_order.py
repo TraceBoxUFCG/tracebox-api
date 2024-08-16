@@ -78,6 +78,11 @@ class PurchaseOrderService(
         if params.status:
             filtered = filtered.filter_by_status(status=params.status)
 
+        if params.expected_arrival_date:
+            filtered = filtered.filter_by_expected_arrival_date(
+                expected_arrival_date=params.expected_arrival_date
+            )
+
         return filtered
 
     def get_all_for_pagination(self, params: PurchaseOrderListParams):
