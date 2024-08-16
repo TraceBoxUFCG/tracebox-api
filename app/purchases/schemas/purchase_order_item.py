@@ -1,4 +1,3 @@
-from decimal import Decimal
 from typing import Optional
 
 from pydantic import BaseModel
@@ -8,7 +7,7 @@ from app.catalog.schemas.product_variety import ProductVariety
 
 class PurchaseOrderItemBase(BaseModel):
     boxes_quantity: int
-    unit_price: Decimal
+    unit_price: float
 
 
 class PurchaseOrderItemCreateOrUpdate(PurchaseOrderItemBase):
@@ -24,7 +23,7 @@ class PurchaseOrderItemCreate(PurchaseOrderItemBase):
 
 class PurchaseOrderItemUpdate(BaseModel):
     boxes_quantity: Optional[int] = None
-    unit_price: Optional[Decimal] = None
+    unit_price: Optional[float] = None
 
 
 class PurchaseOrderItem(PurchaseOrderItemBase):

@@ -1,3 +1,4 @@
+from typing import List
 from app.common.services.base import BaseService
 from app.purchases.repositories.purchase_order_item import PurchaseOrdeItemRepository
 from app.purchases.schemas.purchase_order_item import (
@@ -20,23 +21,47 @@ class PurchaseOrderItemService(
         self.db = db
 
     def place(
-        self, purchase_order_id: int, create_or_update: PurchaseOrderItemCreateOrUpdate
+        self, purchase_order_id: int, items: List[PurchaseOrderItemCreateOrUpdate]
     ) -> PurchaseOrderItem:
-        existing_item = (
-            self.get_by_id(id=create_or_update.id) if create_or_update.id else None
+        items_id = {item.id for item in items}
+        current_items = self.get_items_by_purchase_order(
+            purchase_order_id=purchase_order_id
         )
+        items_to_delete = [item.id for item in current_items if item.id not in items_id]
 
-        if existing_item:
-            update_data = PurchaseOrderItemUpdate(
-                boxes_quantity=create_or_update.boxes_quantity,
-                unit_price=create_or_update.unit_price,
-            )
-            return self.update(id=create_or_update.id, update=update_data)
-        else:
-            create_data = PurchaseOrderItemCreate(
-                boxes_quantity=create_or_update.boxes_quantity,
-                unit_price=create_or_update.unit_price,
-                product_variety_id=create_or_update.product_variety_id,
-                purchase_order_id=purchase_order_id,
-            )
-            return self.create(create=create_data)
+        self.create_or_update(purchase_order_id=purchase_order_id, items=items)
+        self.delete_items_in_batch(list_of_ids=items_to_delete)
+
+        return self.get_items_by_purchase_order(purchase_order_id=purchase_order_id)
+
+    def delete_items_in_batch(self, list_of_ids: List[int]):
+        for id in list_of_ids:
+            self.delete(id=id)
+
+    def create_or_update(
+        self, purchase_order_id: int, items: List[PurchaseOrderItemCreateOrUpdate]
+    ):
+        for item in items:
+            existing_item = self.get_by_id(id=item.id) if item.id else None
+
+            if existing_item:
+                update_data = PurchaseOrderItemUpdate(
+                    boxes_quantity=item.boxes_quantity,
+                    unit_price=item.unit_price,
+                )
+                self.update(id=item.id, update=update_data)
+            else:
+                create_data = PurchaseOrderItemCreate(
+                    boxes_quantity=item.boxes_quantity,
+                    unit_price=item.unit_price,
+                    product_variety_id=item.product_variety_id,
+                    purchase_order_id=purchase_order_id,
+                )
+                self.create(create=create_data)
+
+    def get_items_by_purchase_order(
+        self, purchase_order_id: int
+    ) -> List[PurchaseOrderItem]:
+        return self.repository.get_by_purchase_order_id(
+            purchase_order_id=purchase_order_id
+        )

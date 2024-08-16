@@ -42,12 +42,9 @@ class PurchaseOrderService(
                 expected_arrival_date=create_or_update.expected_arrival_date,
             )
 
-            [
-                self.purchase_order_item_service.place(
-                    purchase_order_id=existing_order.id, create_or_update=item
-                )
-                for item in create_or_update.items
-            ]
+            self.purchase_order_item_service.place(
+                purchase_order_id=existing_order.id, items=create_or_update.items
+            )
 
             return self.update(id=create_or_update.id, update=update_data)
 

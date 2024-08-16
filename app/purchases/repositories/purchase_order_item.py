@@ -13,3 +13,8 @@ class PurchaseOrdeItemRepository(
             model_class=PurchaseOrderItemModel,
             db=db,
         )
+
+    def get_by_purchase_order_id(self, purchase_order_id: int):
+        return self.default_query.filter(
+            PurchaseOrderItemModel.purchase_order_id == purchase_order_id
+        ).all()

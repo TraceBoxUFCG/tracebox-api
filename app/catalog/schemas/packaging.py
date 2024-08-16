@@ -1,12 +1,10 @@
-from decimal import Decimal
-
 from pydantic import BaseModel
 
 from app.common.schemas.unit import UnitEnum
 
 
 class PackagingBase(BaseModel):
-    quantity: Decimal
+    quantity: float
     unit: UnitEnum
 
 
