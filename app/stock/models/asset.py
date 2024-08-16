@@ -1,8 +1,7 @@
 from sqlalchemy import Column, Enum, ForeignKey
-from app.catalog.models.product import ProductModel
 from app.common.database.database import Base
 from app.common.models.table_model import TableModel
-from sqlalchemy.orm import relationship, foreign
+from sqlalchemy.orm import relationship
 
 from app.stock.schemas.asset import AssetStatusEnum
 
@@ -19,9 +18,15 @@ class AssetModel(Base, TableModel):
         nullable=True,
     )
 
+    packaging = relationship(
+        "PackagingModel",
+        primaryjoin="and_(PackagingModel.id==AssetModel.packaging_id, PackagingModel.deleted_at.is_(None))",
+        backref="asset",
+    )
+
     product = relationship(
         "ProductModel",
-        primaryjoin=packaging_id == foreign(ProductModel.packaging_id),
+        primaryjoin="and_(foreign(ProductModel.packaging_id)==AssetModel.packaging_id, ProductModel.deleted_at.is_(None))",
         viewonly=True,
         uselist=False,
     )
