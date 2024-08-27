@@ -36,3 +36,11 @@ def get_purchase_order_by_id(
     service: PurchaseOrderService = Depends(get_purchase_order_service),
 ):
     return service.get_by_id(id=id)
+
+
+@router.post("/{id}/confirm", response_model=PurchaseOrder)
+def confirm_purchase_order(
+    id: int,
+    service: PurchaseOrderService = Depends(get_purchase_order_service),
+):
+    return service.confirm(id=id)
