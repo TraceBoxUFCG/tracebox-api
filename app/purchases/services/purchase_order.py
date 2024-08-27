@@ -88,3 +88,14 @@ class PurchaseOrderService(
 
     def get_all_for_pagination(self, params: PurchaseOrderListParams):
         return self._get_all_query(params=params).query
+
+    def confirm(self, id: int):
+        purchase_order = self.get_by_id(id=id)
+        if purchase_order.status != PurchaseOrderStatusEnum.DRAFT:
+            raise HTTPException(
+                status_code=409,
+                detail="Cant confirm purchase order that is not in draft",
+            )
+
+        update_payload = PurchaseOrderUpdate(status=PurchaseOrderStatusEnum.CONFIRMED)
+        return self.update(id=id, update=update_payload)

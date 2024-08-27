@@ -37,6 +37,7 @@ class PurchaseOrderCreateOrUpdate(BaseModel):
 
 class PurchaseOrderUpdate(BaseModel):
     expected_arrival_date: Optional[date] = None
+    status: Optional[PurchaseOrderStatusEnum] = None
 
 
 class PurchaseOrder(PurchaseOrderBase):
