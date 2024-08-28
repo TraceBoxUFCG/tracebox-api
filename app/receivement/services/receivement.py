@@ -5,12 +5,12 @@ from app.purchases.schemas.purchase_order import PurchaseOrderStatusEnum
 from app.purchases.services.purchase_order import PurchaseOrderService
 from sqlalchemy.orm import Session
 
-from app.receivement.schemas.purchase_order_receivement import (
-    PurchaseOrderReceivement,
-    PurchaseOrderReceivementCreate,
+from app.receivement.schemas.receivement_item import (
+    ReceivementItem,
+    ReceivementItemCreate,
 )
-from app.receivement.services.purchase_order_receivement import (
-    PurchaseOrderReceivementService,
+from app.receivement.services.receivement_item import (
+    ReceivementItemService,
 )
 
 
@@ -20,9 +20,9 @@ class ReceivementService:
     def __init__(self, db: Session):
         self.db = db
         self.purchase_order_service = PurchaseOrderService(db=db)
-        self.purchase_order_receivement_service = PurchaseOrderReceivementService(db=db)
+        self.receivement_item_service = ReceivementItemService(db=db)
 
-    def start(self, purchase_order_id: int) -> List[PurchaseOrderReceivement]:
+    def start(self, purchase_order_id: int) -> List[ReceivementItem]:
         purchase_order = self.purchase_order_service.get_by_id(id=purchase_order_id)
 
         if purchase_order.status != PurchaseOrderStatusEnum.CONFIRMED:
@@ -35,11 +35,11 @@ class ReceivementService:
 
         receivements = []
         for item in items:
-            payload = PurchaseOrderReceivementCreate(
+            payload = ReceivementItemCreate(
                 purchase_order_item_id=item.id, received_quantity=0, rejected_quantity=0
             )
 
-            receivement = self.purchase_order_receivement_service.create(create=payload)
+            receivement = self.receivement_item_service.create(create=payload)
             receivements.append(receivement)
 
         return receivements

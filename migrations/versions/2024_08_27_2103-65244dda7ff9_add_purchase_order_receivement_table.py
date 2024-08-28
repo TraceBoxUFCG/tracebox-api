@@ -1,4 +1,4 @@
-"""add_purchase_order_receivement_table
+"""add_receivement_item_table
 
 Revision ID: 65244dda7ff9
 Revises: 3e6c6a3a4ee2
@@ -19,7 +19,7 @@ depends_on = None
 
 def upgrade() -> None:
     op.create_table(
-        "purchase_order_receivement",
+        "receivement_item",
         sa.Column("purchase_order_item_id", sa.Integer(), nullable=False),
         sa.Column("received_quantity", sa.Numeric(), nullable=False),
         sa.Column("rejected_quantity", sa.Numeric(), nullable=False),
@@ -34,13 +34,13 @@ def upgrade() -> None:
         sa.ForeignKeyConstraint(
             ["purchase_order_item_id"],
             ["purchase_order_item.id"],
-            name="purchase_order_receivement_purchase_order_item_id_fk",
+            name="receivement_item_purchase_order_item_id_fk",
         ),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(
-        op.f("ix_purchase_order_receivement_purchase_order_item_id"),
-        "purchase_order_receivement",
+        op.f("ix_receivement_item_purchase_order_item_id"),
+        "receivement_item",
         ["purchase_order_item_id"],
         unique=False,
     )
@@ -48,7 +48,7 @@ def upgrade() -> None:
 
 def downgrade() -> None:
     op.drop_index(
-        op.f("ix_purchase_order_receivement_purchase_order_item_id"),
-        table_name="purchase_order_receivement",
+        op.f("ix_receivement_item_purchase_order_item_id"),
+        table_name="receivement_item",
     )
-    op.drop_table("purchase_order_receivement")
+    op.drop_table("receivement_item")

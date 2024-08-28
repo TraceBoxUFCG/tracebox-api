@@ -5,20 +5,20 @@ from pydantic import BaseModel
 from app.purchases.schemas.purchase_order_item import PurchaseOrderItem
 
 
-class PurchaseOrderReceivementBase(BaseModel):
+class ReceivementItemBase(BaseModel):
     purchase_order_item_id: int
     received_quantity: int
     rejected_quantity: int
 
 
-class PurchaseOrderReceivementCreate(PurchaseOrderReceivementBase):
+class ReceivementItemCreate(ReceivementItemBase):
     ...
 
 
-class PurchaseOrderReceivement(PurchaseOrderReceivementBase):
+class ReceivementItem(ReceivementItemBase):
     purchase_order_item: PurchaseOrderItem
 
 
-class PurchaseOrderReceivementUpdate(BaseModel):
+class ReceivementItemUpdate(BaseModel):
     received_quantity: Optional[int] = None
     rejected_quantity: Optional[int] = None
