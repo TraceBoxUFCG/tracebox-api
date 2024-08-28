@@ -5,7 +5,6 @@ from app.purchases.schemas.purchase_order import PurchaseOrderStatusEnum
 from app.purchases.services.purchase_order import PurchaseOrderService
 from sqlalchemy.orm import Session
 
-from app.purchases.services.purchase_order_item import PurchaseOrderItemService
 from app.receivement.schemas.purchase_order_receivement import (
     PurchaseOrderReceivement,
     PurchaseOrderReceivementCreate,
@@ -21,7 +20,6 @@ class ReceivementService:
     def __init__(self, db: Session):
         self.db = db
         self.purchase_order_service = PurchaseOrderService(db=db)
-        self.purchase_order_item_service = PurchaseOrderItemService(db=db)
         self.purchase_order_receivement_service = PurchaseOrderReceivementService(db=db)
 
     def start(self, purchase_order_id: int) -> List[PurchaseOrderReceivement]:
@@ -33,7 +31,7 @@ class ReceivementService:
                 detail=f"Cant start receivement for a purchase order with status {purchase_order.status}",
             )
 
-        items = self.purchase_order_item_service.get_all()
+        items = purchase_order.items
 
         receivements = []
         for item in items:
