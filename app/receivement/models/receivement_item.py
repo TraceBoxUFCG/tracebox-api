@@ -1,8 +1,10 @@
 from sqlalchemy import (
     Column,
+    Index,
     Integer,
     ForeignKey,
     Numeric,
+    text,
 )
 from sqlalchemy.orm import relationship
 
@@ -12,6 +14,15 @@ from app.common.models.table_model import TableModel
 
 class ReceivementItemModel(Base, TableModel):
     __tablename__ = "receivement_item"
+
+    __table_args__ = (
+        Index(
+            "ix_purchase_order_item_id_uniqueness",
+            "purchase_order_item_id",
+            unique=True,
+            postgresql_where=text("deleted_at IS NULL"),
+        ),
+    )
 
     purchase_order_item_id = Column(
         Integer,

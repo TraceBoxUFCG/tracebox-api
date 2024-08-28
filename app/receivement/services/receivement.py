@@ -31,8 +31,6 @@ class ReceivementService:
                 detail=f"Cant start receivement for a purchase order with status {purchase_order.status}",
             )
 
-        print(purchase_order)
-
         items = purchase_order.items
 
         receivements = []
@@ -40,7 +38,6 @@ class ReceivementService:
             payload = ReceivementItemCreate(
                 purchase_order_item_id=item.id, received_quantity=0, rejected_quantity=0
             )
-
             receivement = self.receivement_item_service.create(create=payload)
             receivements.append(receivement)
 
