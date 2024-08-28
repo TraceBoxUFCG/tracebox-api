@@ -28,5 +28,5 @@ class ProductModel(Base, TableModel):
     packaging = relationship(
         "PackagingModel",
         primaryjoin="and_(PackagingModel.id==ProductModel.packaging_id, PackagingModel.deleted_at.is_(None))",
-        backref="address",
+        lazy=True,
     )

@@ -16,6 +16,8 @@ class PurchaseOrderStatusEnum(str, Enum):
     CONFIRMED = "CONFIRMED"
     RECEIVED = "RECEIVED"
     LOTTED = "LOTTED"
+    RECEIVEMENT_STARTED = "RECEIVEMENT_STARTED"
+    LOTTING_STARTED = "LOTTING_STARTED"
 
 
 class PurchaseOrderBase(BaseModel):

@@ -21,7 +21,7 @@ class AssetModel(Base, TableModel):
     packaging = relationship(
         "PackagingModel",
         primaryjoin="and_(PackagingModel.id==AssetModel.packaging_id, PackagingModel.deleted_at.is_(None))",
-        backref="asset",
+        lazy=True,
     )
 
     product = relationship(
@@ -29,4 +29,5 @@ class AssetModel(Base, TableModel):
         primaryjoin="and_(foreign(ProductModel.packaging_id)==AssetModel.packaging_id, ProductModel.deleted_at.is_(None))",
         viewonly=True,
         uselist=False,
+        lazy=True,
     )

@@ -37,10 +37,19 @@ class PurchaseOrderItemModel(Base, TableModel):
         "PurchaseOrderModel",
         primaryjoin="and_(PurchaseOrderItemModel.purchase_order_id==PurchaseOrderModel.id, PurchaseOrderModel.deleted_at.is_(None))",
         back_populates="items",
+        lazy=True,
     )
 
     product_variety = relationship(
         "ProductVarietyModel",
         primaryjoin="and_(ProductVarietyModel.id==PurchaseOrderItemModel.product_variety_id, ProductVarietyModel.deleted_at.is_(None))",
-        backref="purchase_order_items",
+        lazy=True,
+    )
+
+    receivement = relationship(
+        "ReceivementItemModel",
+        primaryjoin="and_(ReceivementItemModel.purchase_order_item_id==PurchaseOrderItemModel.id, ReceivementItemModel.deleted_at.is_(None))",
+        viewonly=True,
+        lazy=True,
+        uselist=False,
     )

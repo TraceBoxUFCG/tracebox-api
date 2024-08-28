@@ -8,6 +8,7 @@ import app.common.models  # noqa: F401
 from app.common.core.settings import settings
 from app.common.database.database import Base
 from app.common.models import *  # noqa
+import alembic_autogenerate_enums  # noqa
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
