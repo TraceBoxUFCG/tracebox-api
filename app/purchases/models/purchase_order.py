@@ -32,10 +32,12 @@ class PurchaseOrderModel(Base, TableModel):
     supplier = relationship(
         "SupplierModel",
         primaryjoin="and_(SupplierModel.id==PurchaseOrderModel.supplier_id, SupplierModel.deleted_at.is_(None))",
+        lazy=True,
     )
 
     items = relationship(
         "PurchaseOrderItemModel",
         primaryjoin="and_(PurchaseOrderItemModel.purchase_order_id==PurchaseOrderModel.id, PurchaseOrderItemModel.deleted_at.is_(None))",
         uselist=True,
+        lazy=True,
     )

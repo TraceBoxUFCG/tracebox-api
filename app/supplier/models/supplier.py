@@ -26,4 +26,5 @@ class SupplierModel(Base, TableModel):
     address = relationship(
         "AddressModel",
         primaryjoin="and_(AddressModel.id==SupplierModel.address_id, AddressModel.deleted_at.is_(None))",
+        lazy=True,
     )

@@ -26,6 +26,13 @@ class PurchaseOrderItemUpdate(BaseModel):
     unit_price: Optional[float] = None
 
 
+class Receivement(BaseModel):
+    status: str
+    received_quantity: int
+    rejected_quantity: int
+
+
 class PurchaseOrderItem(PurchaseOrderItemBase):
     id: int
     product_variety: ProductVariety
+    receivement: Optional[Receivement] = None

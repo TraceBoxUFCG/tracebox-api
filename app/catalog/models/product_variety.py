@@ -27,4 +27,5 @@ class ProductVarietyModel(Base, TableModel):
     product = relationship(
         "ProductModel",
         primaryjoin="and_(ProductModel.id==ProductVarietyModel.product_id, ProductModel.deleted_at.is_(None))",
+        lazy=True,
     )

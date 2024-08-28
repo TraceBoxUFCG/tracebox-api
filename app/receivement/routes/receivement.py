@@ -20,6 +20,14 @@ def start(
     return service.start(purchase_order_id=purchase_order_id)
 
 
+@router.post("/{purchase_order_id}/finish", response_model=PurchaseOrder)
+def finish(
+    purchase_order_id: int,
+    service: ReceivementService = Depends(get_receivement_service),
+):
+    return service.finish(purchase_order_id=purchase_order_id)
+
+
 @router.get("/purchase_order", response_model=Page[PurchaseOrder])
 def get_purchase_orders(
     params: PurchaseOrderListParams = Depends(),

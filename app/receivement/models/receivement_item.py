@@ -43,6 +43,7 @@ class ReceivementItemModel(Base, TableModel):
     purchase_order_item = relationship(
         "PurchaseOrderItemModel",
         primaryjoin="and_(ReceivementItemModel.purchase_order_item_id==PurchaseOrderItemModel.id, PurchaseOrderItemModel.deleted_at.is_(None))",
+        lazy=True,
     )
 
     status = Column(
