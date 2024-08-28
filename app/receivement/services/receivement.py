@@ -50,6 +50,23 @@ class ReceivementService:
         self.purchase_order_service.start_receivement(id=purchase_order_id)
         return receivements
 
+    def finish(self, purchase_order_id: int):
+        pending_receivements = (
+            self.receivement_item_service.get_pending_by_purchase_order_id(
+                purchase_order_id=purchase_order_id
+            )
+        )
+
+        if pending_receivements:
+            raise HTTPException(
+                status_code=400,
+                detail="Cant finish receivement for purchase_order with pending items to receive",
+            )
+
+        self.purchase_order_service.finish_receivement(
+            purchase_order_id=purchase_order_id
+        )
+
     def get_purchase_order(self, params: PurchaseOrderListParams):
         return self.purchase_order_service.get_all_for_pagination(params=params)
 

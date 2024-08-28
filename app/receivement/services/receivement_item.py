@@ -43,3 +43,10 @@ class ReceivementItemService(
         return self.repository.get_by_purchase_order_id(
             purchase_order_id=purchase_order_id
         )
+
+    def get_pending_by_purchase_order_id(
+        self, purchase_order_id: int
+    ) -> List[ReceivementItem]:
+        return self.repository.get_pending_by_purchase_order_id(
+            purchase_order_id=purchase_order_id
+        )

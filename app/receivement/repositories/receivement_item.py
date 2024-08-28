@@ -5,6 +5,8 @@ from app.receivement.models.receivement_item import (
 )
 from sqlalchemy.orm import Session
 
+from app.receivement.schemas.receivement_item import ReceivementItemStatusEnum
+
 
 class ReceivementItemRepository(
     BaseRepository[ReceivementItemModel, int],
@@ -25,5 +27,18 @@ class ReceivementItemRepository(
             )
             .filter(PurchaseOrderItemModel.deleted_at.is_(None))
             .filter(PurchaseOrderItemModel.purchase_order_id == purchase_order_id)
+            .all()
+        )
+
+    def get_pending_by_purchase_order_id(self, purchase_order_id: int):
+        return (
+            self.default_query.join(
+                PurchaseOrderItemModel,
+                ReceivementItemModel.purchase_order_item_id
+                == PurchaseOrderItemModel.id,
+            )
+            .filter(PurchaseOrderItemModel.deleted_at.is_(None))
+            .filter(PurchaseOrderItemModel.purchase_order_id == purchase_order_id)
+            .filter(ReceivementItemModel.status == ReceivementItemStatusEnum.PENDING)
             .all()
         )

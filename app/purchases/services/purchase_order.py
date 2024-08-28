@@ -112,3 +112,14 @@ class PurchaseOrderService(
             status=PurchaseOrderStatusEnum.RECEIVEMENT_STARTED
         )
         return self.update(id=id, update=update_payload)
+
+    def finish_receivement(self, id: int):
+        purchase_order = self.get_by_id(id=id)
+        if purchase_order.status != PurchaseOrderStatusEnum.RECEIVEMENT_STARTED:
+            raise HTTPException(
+                status_code=409,
+                detail="Cant start receivement for a purchase order that did not started receivement process",
+            )
+
+        update_payload = PurchaseOrderUpdate(status=PurchaseOrderStatusEnum.RECEIVED)
+        return self.update(id=id, update=update_payload)
