@@ -99,3 +99,16 @@ class PurchaseOrderService(
 
         update_payload = PurchaseOrderUpdate(status=PurchaseOrderStatusEnum.CONFIRMED)
         return self.update(id=id, update=update_payload)
+
+    def start_receivement(self, id: int):
+        purchase_order = self.get_by_id(id=id)
+        if purchase_order.status != PurchaseOrderStatusEnum.CONFIRMED:
+            raise HTTPException(
+                status_code=409,
+                detail="Cant start receivement for a purchase order that is not confirmed",
+            )
+
+        update_payload = PurchaseOrderUpdate(
+            status=PurchaseOrderStatusEnum.RECEIVEMENT_STARTED
+        )
+        return self.update(id=id, update=update_payload)
