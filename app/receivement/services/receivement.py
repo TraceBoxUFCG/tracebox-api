@@ -1,7 +1,11 @@
 from typing import List
 
 from fastapi import HTTPException
-from app.purchases.schemas.purchase_order import PurchaseOrder, PurchaseOrderStatusEnum
+from app.purchases.schemas.purchase_order import (
+    PurchaseOrder,
+    PurchaseOrderListParams,
+    PurchaseOrderStatusEnum,
+)
 from app.purchases.services.purchase_order import PurchaseOrderService
 from sqlalchemy.orm import Session
 
@@ -45,3 +49,11 @@ class ReceivementService:
 
         self.purchase_order_service.start_receivement(id=purchase_order_id)
         return receivements
+
+    def get_purchase_order(self, params: PurchaseOrderListParams):
+        return self.purchase_order_service.get_all_for_pagination(params=params)
+
+    def get_receivement_items(self, purchase_order_id: int) -> List[ReceivementItem]:
+        return self.receivement_item_service.get_by_purchase_order_id(
+            purchase_order_id=purchase_order_id
+        )

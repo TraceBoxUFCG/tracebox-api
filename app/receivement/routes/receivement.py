@@ -1,9 +1,12 @@
 from typing import List
 from fastapi import APIRouter, Depends
+from fastapi_pagination import Page
 
+from app.purchases.schemas.purchase_order import PurchaseOrder, PurchaseOrderListParams
 from app.receivement.deps import get_receivement_service
 from app.receivement.schemas.receivement_item import ReceivementItem
 from app.receivement.services.receivement import ReceivementService
+from fastapi_pagination.ext.sqlalchemy import paginate
 
 
 router = APIRouter()
@@ -15,3 +18,22 @@ def start(
     service: ReceivementService = Depends(get_receivement_service),
 ):
     return service.start(purchase_order_id=purchase_order_id)
+
+
+@router.get("/purchase_order", response_model=Page[PurchaseOrder])
+def get_purchase_orders(
+    params: PurchaseOrderListParams = Depends(),
+    service: ReceivementService = Depends(get_receivement_service),
+):
+    return paginate(service.get_purchase_order(params=params))
+
+
+@router.get(
+    "/purchase_order/{purchase_order_id}/receivement_items",
+    response_model=List[ReceivementItem],
+)
+def get_receivement_items(
+    purchase_order_id: int,
+    service: ReceivementService = Depends(get_receivement_service),
+):
+    return service.get_receivement_items(purchase_order_id=purchase_order_id)

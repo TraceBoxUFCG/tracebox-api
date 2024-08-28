@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import HTTPException
 from psycopg2.errors import UniqueViolation
 from sqlalchemy.exc import IntegrityError
@@ -37,3 +38,8 @@ class ReceivementItemService(
                     status_code=409,
                     detail=f"Receivement item for purchase_order item {create.purchase_order_item_id} already exists",
                 )
+
+    def get_by_purchase_order_id(self, purchase_order_id: int) -> List[ReceivementItem]:
+        return self.repository.get_by_purchase_order_id(
+            purchase_order_id=purchase_order_id
+        )
