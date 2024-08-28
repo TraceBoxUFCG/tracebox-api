@@ -9,9 +9,12 @@ from app.purchases.schemas.purchase_order import (
 from app.purchases.services.purchase_order import PurchaseOrderService
 from sqlalchemy.orm import Session
 
+from app.receivement.schemas.receivement import ReceiveItemPayload
 from app.receivement.schemas.receivement_item import (
     ReceivementItem,
     ReceivementItemCreate,
+    ReceivementItemStatusEnum,
+    ReceivementItemUpdate,
 )
 from app.receivement.services.receivement_item import (
     ReceivementItemService,
@@ -71,4 +74,38 @@ class ReceivementService:
     def get_receivement_items(self, purchase_order_id: int) -> List[ReceivementItem]:
         return self.receivement_item_service.get_by_purchase_order_id(
             purchase_order_id=purchase_order_id
+        )
+
+    def receive_item(
+        self, receivement_item_id: int, receive_payload: ReceiveItemPayload
+    ) -> ReceivementItem:
+        receivement_item = self.receivement_item_service.get_by_id(
+            id=receivement_item_id
+        )
+
+        if receivement_item.status != ReceivementItemStatusEnum.PENDING:
+            raise HTTPException(
+                status_code=400,
+                detail="Cant receive item that already has been received",
+            )
+
+        item_boxes = receivement_item.purchase_order_item.boxes_quantity
+
+        received_quantity = receive_payload.received_quantity
+        rejected_quantity = receive_payload.rejected_quantity
+
+        if (received_quantity + rejected_quantity) > item_boxes:
+            raise HTTPException(
+                status_code=400,
+                detail="Cant receive item with bigger quantity than order item",
+            )
+
+        update_payload = ReceivementItemUpdate(
+            received_quantity=received_quantity,
+            rejected_quantity=rejected_quantity,
+            status=ReceivementItemStatusEnum.RECEIVED,
+        )
+
+        return self.receivement_item_service.update(
+            id=receivement_item_id, update=update_payload
         )

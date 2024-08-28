@@ -23,9 +23,11 @@ class ReceivementItemCreate(ReceivementItemBase):
 
 
 class ReceivementItem(ReceivementItemBase):
+    id: int
     purchase_order_item: PurchaseOrderItem
 
 
 class ReceivementItemUpdate(BaseModel):
     received_quantity: Optional[int] = None
     rejected_quantity: Optional[int] = None
+    status: Optional[ReceivementItemStatusEnum] = None
