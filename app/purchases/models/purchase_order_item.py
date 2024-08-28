@@ -47,8 +47,9 @@ class PurchaseOrderItemModel(Base, TableModel):
     )
 
     receivement = relationship(
-        "ReceivementItem",
-        primaryjoin="and_(ReceivementItem.purchase_order_item_id==PurchaseOrderItemModel.id, ReceivementItem.deleted_at.is_(None))",
+        "ReceivementItemModel",
+        primaryjoin="and_(ReceivementItemModel.purchase_order_item_id==PurchaseOrderItemModel.id, ReceivementItemModel.deleted_at.is_(None))",
         viewonly=True,
         lazy=True,
+        uselist=False,
     )

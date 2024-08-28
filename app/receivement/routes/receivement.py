@@ -37,7 +37,7 @@ def get_purchase_orders(
 
 
 @router.get(
-    "/purchase_order/{purchase_order_id}/receivement_items",
+    "/purchase_order/{purchase_order_id}/receivement_item",
     response_model=List[ReceivementItem],
 )
 def get_receivement_items(
