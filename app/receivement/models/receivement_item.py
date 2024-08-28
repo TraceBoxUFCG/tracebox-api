@@ -1,5 +1,6 @@
 from sqlalchemy import (
     Column,
+    Enum,
     Index,
     Integer,
     ForeignKey,
@@ -10,6 +11,7 @@ from sqlalchemy.orm import relationship
 
 from app.common.database.database import Base
 from app.common.models.table_model import TableModel
+from app.receivement.schemas.receivement_item import ReceivementItemStatusEnum
 
 
 class ReceivementItemModel(Base, TableModel):
@@ -41,4 +43,10 @@ class ReceivementItemModel(Base, TableModel):
     purchase_order_item = relationship(
         "PurchaseOrderItemModel",
         primaryjoin="and_(ReceivementItemModel.purchase_order_item_id==PurchaseOrderItemModel.id, PurchaseOrderItemModel.deleted_at.is_(None))",
+    )
+
+    status = Column(
+        Enum(ReceivementItemStatusEnum),
+        nullable=False,
+        server_default=ReceivementItemStatusEnum.PENDING,
     )
