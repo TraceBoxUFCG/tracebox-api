@@ -42,5 +42,4 @@ class PurchaseOrderItemModel(Base, TableModel):
     product_variety = relationship(
         "ProductVarietyModel",
         primaryjoin="and_(ProductVarietyModel.id==PurchaseOrderItemModel.product_variety_id, ProductVarietyModel.deleted_at.is_(None))",
-        backref="purchase_order_items",
     )

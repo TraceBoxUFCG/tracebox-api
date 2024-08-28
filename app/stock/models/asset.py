@@ -21,7 +21,6 @@ class AssetModel(Base, TableModel):
     packaging = relationship(
         "PackagingModel",
         primaryjoin="and_(PackagingModel.id==AssetModel.packaging_id, PackagingModel.deleted_at.is_(None))",
-        backref="asset",
     )
 
     product = relationship(

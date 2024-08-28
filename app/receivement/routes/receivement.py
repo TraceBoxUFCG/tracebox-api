@@ -9,7 +9,7 @@ from app.receivement.services.receivement import ReceivementService
 router = APIRouter()
 
 
-@router.post("{purchase_order_id}/start", response_model=List[ReceivementItem])
+@router.post("/{purchase_order_id}/start", response_model=List[ReceivementItem])
 def start(
     purchase_order_id: int,
     service: ReceivementService = Depends(get_receivement_service),

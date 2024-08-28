@@ -31,6 +31,8 @@ class ReceivementService:
                 detail=f"Cant start receivement for a purchase order with status {purchase_order.status}",
             )
 
+        print(purchase_order)
+
         items = purchase_order.items
 
         receivements = []
