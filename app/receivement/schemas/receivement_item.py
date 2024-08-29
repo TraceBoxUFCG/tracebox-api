@@ -18,8 +18,10 @@ class ReceivementItemBase(BaseModel):
     rejected_quantity: int
 
 
-class ReceivementItemCreate(ReceivementItemBase):
-    ...
+class ReceivementItemCreate(BaseModel):
+    purchase_order_item_id: int
+    received_quantity: int
+    rejected_quantity: int
 
 
 class ReceivementItem(ReceivementItemBase):
