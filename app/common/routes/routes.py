@@ -4,6 +4,7 @@ from app.catalog.routes import routes as catalog
 from app.stock.routes import routes as stock
 from app.purchases.routes import routes as purchases
 from app.receivement.routes import receivement as receivement
+from app.receivement.routes import lotting as lotting
 
 router = APIRouter()
 
@@ -14,3 +15,4 @@ router.include_router(router=purchases.router, prefix="/purchases", tags=["purch
 router.include_router(
     router=receivement.router, prefix="/receivement", tags=["receivement"]
 )
+router.include_router(router=lotting.router, prefix="/lotting", tags=["lotting"])
