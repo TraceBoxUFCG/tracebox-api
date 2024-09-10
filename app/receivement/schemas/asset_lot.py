@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 from app.receivement.schemas.receivement_item import ReceivementItem
@@ -9,15 +10,16 @@ class AssetLotBase(BaseModel):
     asset_id: int
 
 
-class AssetLotCreate(AssetLotBase):
-    ...
+class AssetLotCreate(BaseModel):
+    receivement_item_id: int
 
 
 class AssetLotUpdate(BaseModel):
-    ...
+    asset_id: Optional[int] = None
 
 
 class AssetLot(AssetLotBase):
     id: int
     receivement_item: ReceivementItem
-    asset: Asset
+    asset_id: Optional[int] = None
+    asset: Optional[Asset] = None
