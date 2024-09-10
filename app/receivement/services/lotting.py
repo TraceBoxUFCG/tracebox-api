@@ -66,7 +66,17 @@ class LottingService:
         return created_asset_lots
 
     def finish(self, purchase_order_id: int) -> PurchaseOrder:
-        ...
+        pending_lot = self.asset_lot_service.get_not_lotted_by_purchase_order_id(
+            purchase_order_id=purchase_order_id
+        )
+
+        if pending_lot:
+            raise HTTPException(
+                status_code=400,
+                detail="Cant finish lotting for purchase_order with pending items to lot",
+            )
+
+        return self.purchase_order_service.finish_lotting(id=purchase_order_id)
 
     def get_purchase_order(self, params: PurchaseOrderListParams):
         ...
