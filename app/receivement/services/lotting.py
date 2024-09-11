@@ -83,7 +83,7 @@ class LottingService:
         return self.purchase_order_service.finish_lotting(id=purchase_order_id)
 
     def get_purchase_order(self, params: PurchaseOrderListParams):
-        ...
+        return self.purchase_order_service.get_all_for_pagination(params=params)
 
     def get_asset_lots(self, purchase_order_id: int) -> List[AssetLot]:
         return self.asset_lot_service.get_by_purchase_order_id(
