@@ -25,3 +25,8 @@ class AsseLotService(
         return self.repository.get_not_lotted_by_purchase_order_id(
             purchase_order_id=purchase_order_id
         )
+
+    def get_by_purchase_order_id(self, purchase_order_id: int) -> List[AssetLot]:
+        return self.repository.get_by_purchase_order_id(
+            purchase_order_id=purchase_order_id
+        )

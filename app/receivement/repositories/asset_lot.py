@@ -37,3 +37,20 @@ class AssetLotRepository(
             .filter(AssetLotModel.asset_id.is_(None))
             .all()
         )
+
+    def get_by_purchase_order_id(self, purchase_order_id: int) -> List[AssetLotModel]:
+        return (
+            self.default_query.join(
+                ReceivementItemModel,
+                ReceivementItemModel.id == AssetLotModel.receivement_item_id,
+            )
+            .join(
+                PurchaseOrderItemModel,
+                ReceivementItemModel.purchase_order_item_id
+                == PurchaseOrderItemModel.id,
+            )
+            .filter(PurchaseOrderItemModel.deleted_at.is_(None))
+            .filter(ReceivementItemModel.deleted_at.is_(None))
+            .filter(PurchaseOrderItemModel.purchase_order_id == purchase_order_id)
+            .all()
+        )

@@ -86,7 +86,9 @@ class LottingService:
         ...
 
     def get_asset_lots(self, purchase_order_id: int) -> List[AssetLot]:
-        ...
+        return self.asset_lot_service.get_by_purchase_order_id(
+            purchase_order_id=purchase_order_id
+        )
 
     def lot_item(
         self, asset_lot_id: int, lotting_payload: LotReceivementItemPayload
