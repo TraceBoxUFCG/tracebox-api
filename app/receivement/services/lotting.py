@@ -2,6 +2,7 @@ from typing import List
 
 from fastapi import HTTPException
 
+from app.catalog.schemas.packaging import Packaging
 from app.purchases.schemas.purchase_order import (
     PurchaseOrder,
     PurchaseOrderListParams,
@@ -10,11 +11,13 @@ from app.purchases.schemas.purchase_order import (
 from app.purchases.services.purchase_order import PurchaseOrderService
 from sqlalchemy.orm import Session
 
-from app.receivement.schemas.asset_lot import AssetLot, AssetLotCreate
+from app.receivement.schemas.asset_lot import AssetLot, AssetLotCreate, AssetLotUpdate
 from app.receivement.schemas.lotting import LotReceivementItemPayload
 from app.receivement.schemas.receivement_item import ReceivementItem
 from app.receivement.services.asset_lot import AsseLotService
 from app.receivement.services.receivement_item import ReceivementItemService
+from app.stock.schemas.asset import AssetStatusEnum
+from app.stock.services.asset import AssetService
 
 
 class LottingService:
@@ -25,6 +28,7 @@ class LottingService:
         self.purchase_order_service = PurchaseOrderService(db=db)
         self.asset_lot_service = AsseLotService(db=db)
         self.receivement_item_service = ReceivementItemService(db=db)
+        self.asset_service = AssetService(db=db)
 
     def start(self, purchase_order_id: int) -> List[AssetLot]:
         purchase_order: PurchaseOrder = self.purchase_order_service.get_by_id(
@@ -87,4 +91,31 @@ class LottingService:
     def lot_item(
         self, asset_lot_id: int, lotting_payload: LotReceivementItemPayload
     ) -> AssetLot:
-        ...
+        asset_id = lotting_payload.asset_id
+        asset = self.asset_service.get_by_id(id=asset_id)
+
+        asset_lot = self.asset_lot_service.get_by_id(id=asset_lot_id)
+        receiment_item = asset_lot.receivement_item
+
+        if asset_lot.asset_id:
+            raise HTTPException(status_code=400, detail="Asset Lot already reviewd")
+
+        if asset.status != AssetStatusEnum.EMPTY:
+            raise HTTPException(status_code=400, detail="Cant use this asset to lot.")
+
+        asset_lot = self.asset_lot_service.update(
+            id=asset_lot_id, update=AssetLotUpdate(asset_id=asset_id)
+        )
+        packaging = self._get_receivement_item_packaging(
+            receivement_item_id=receiment_item.id
+        )
+        self.asset_service.lot(id=asset_id, packaging=packaging)
+
+        return asset_lot
+
+    def _get_receivement_item_packaging(self, receivement_item_id: int) -> Packaging:
+        receivement_item = self.receivement_item_service.get_by_id(
+            id=receivement_item_id
+        )
+
+        return receivement_item.purchase_order_item.product_variety.product.packaging
