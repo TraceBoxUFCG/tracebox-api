@@ -118,8 +118,32 @@ class PurchaseOrderService(
         if purchase_order.status != PurchaseOrderStatusEnum.RECEIVEMENT_STARTED:
             raise HTTPException(
                 status_code=409,
-                detail="Cant start receivement for a purchase order that did not started receivement process",
+                detail="Cant finish receivement for a purchase order that did not started receivement process",
             )
 
         update_payload = PurchaseOrderUpdate(status=PurchaseOrderStatusEnum.RECEIVED)
+        return self.update(id=id, update=update_payload)
+
+    def start_lotting(self, id: int):
+        purchase_order = self.get_by_id(id=id)
+        if purchase_order.status != PurchaseOrderStatusEnum.RECEIVED:
+            raise HTTPException(
+                status_code=409,
+                detail="Cant start lotting for a purchase order that is not received",
+            )
+
+        update_payload = PurchaseOrderUpdate(
+            status=PurchaseOrderStatusEnum.LOTTING_STARTED
+        )
+        return self.update(id=id, update=update_payload)
+
+    def finish_lotting(self, id: int):
+        purchase_order = self.get_by_id(id=id)
+        if purchase_order.status != PurchaseOrderStatusEnum.LOTTING_STARTED:
+            raise HTTPException(
+                status_code=409,
+                detail="Cant finish lotting for a purchase order that did not started lotting process",
+            )
+
+        update_payload = PurchaseOrderUpdate(status=PurchaseOrderStatusEnum.LOTTED)
         return self.update(id=id, update=update_payload)

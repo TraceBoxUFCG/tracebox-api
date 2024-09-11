@@ -52,7 +52,7 @@ class PurchaseOrderListParams(BaseModel):
     q: Optional[str] = Field(
         Query(None, description="Simple search by Supplier business name")
     )
-    status: Optional[str] = Field(
+    status: Optional[PurchaseOrderStatusEnum] = Field(
         Query(None, description="Filter by Purchase Order status")
     )
     expected_arrival_date: Optional[date] = Field(

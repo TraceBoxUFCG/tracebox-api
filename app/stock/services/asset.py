@@ -6,13 +6,16 @@ from jinja2 import Environment, FileSystemLoader
 import qrcode
 from sqlalchemy.orm import Session
 
+from app.catalog.schemas.packaging import Packaging
 from app.common.services.base import BaseService
+from app.receivement.schemas.asset_lot import AssetLot
 from app.stock.repositories.asset import AssetFinder, AssetRepository
 from app.stock.schemas.asset import (
     Asset,
     AssetCreate,
     AssetGeneratePayload,
     AssetListParams,
+    AssetStatusEnum,
     AssetUpdate,
 )
 from xhtml2pdf import pisa
@@ -83,3 +86,18 @@ class AssetService(BaseService[AssetCreate, AssetUpdate, Asset]):
 
     def get_all_for_pagination(self, params: AssetListParams):
         return self._get_all_query(params=params).query
+
+    def lot(self, id: int, packaging: Packaging) -> AssetLot:
+        asset = self.get_by_id(id=id)
+
+        if asset.status != AssetStatusEnum.EMPTY:
+            raise HTTPException(
+                status_code=400, detail="Cant lot a asset that is not EMPTY"
+            )
+
+        return self.update(
+            id=id,
+            update=AssetUpdate(
+                status=AssetStatusEnum.OCCUPIED, packaging_id=packaging.id
+            ),
+        )
