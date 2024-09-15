@@ -1,6 +1,5 @@
+from enum import Enum
 from pydantic import BaseModel
-from sqlalchemy import Enum
-
 from app.catalog.schemas.packaging import Packaging
 from app.catalog.schemas.product import Product
 
