@@ -46,7 +46,7 @@ class StockRepository(
             self.db.query(StockModel)
             .filter(StockModel.product_id == product_id)
             .filter(StockModel.deleted_at.is_(None))
-        )
+        ).first()
         if not model:
             raise RecordNotFoundException()
         return model

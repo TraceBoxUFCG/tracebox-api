@@ -26,11 +26,11 @@ class StockManagementService:
 
         if stock:
             stock_update = StockUpdate(
-                quantity=stock.quantity + stock_transaction.quantity
+                quantity=stock.quantity + (stock_transaction.quantity)
             )
             return self.stock_service.update(update=stock_update, id=stock.id)
         else:
             stock_create = StockCreate(
                 product_id=product_id, quantity=stock_transaction.quantity
             )
-            return stock_create
+            return self.stock_service.create(create=stock_create)

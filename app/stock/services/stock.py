@@ -27,6 +27,6 @@ class StockService(BaseService[StockCreate, StockUpdate, Stock]):
 
     def get_by_product_id(self, product_id: int) -> Optional[Stock]:
         try:
-            self.repository.get_by_product_id(product_id=product_id)
+            return self.repository.get_by_product_id(product_id=product_id)
         except RecordNotFoundException:
             return None

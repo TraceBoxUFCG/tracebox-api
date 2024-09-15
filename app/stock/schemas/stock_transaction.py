@@ -21,12 +21,15 @@ class StockTransactionBase(BaseModel):
 class StockTransactionCreate(StockTransactionBase):
     @classmethod
     def from_asset_lot(cls, asset_lot: AssetLot):
+        product = asset_lot.receivement_item.purchase_order_item.product_variety.product
+        packaging = product.packaging
+
         return StockTransactionCreate(
-            quantity=1,
-            product_id=asset_lot.receivement_item.purchase_order_item.product_variety.product.id,
-            packaging_id=asset_lot.receivement_item.purchase_order_item.product_variety.product.packaging.id,
+            quantity=1 * packaging.quantity,
+            product_id=product.id,
+            packaging_id=packaging.id,
             type=StockTransactionTypeEnum.ENTRY,
-            meta={"entry": {"from": asset_lot.model_dump()}},
+            meta={"entry": {"from": asset_lot.id}},
         )
 
 

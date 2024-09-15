@@ -46,7 +46,7 @@ def upgrade() -> None:
         ),
         sa.Column("deleted_at", sa.DateTime(), nullable=True),
         sa.ForeignKeyConstraint(
-            ["packaging_id"], ["product.id"], name="stock_transaction_packaging_id_fk"
+            ["packaging_id"], ["packaging.id"], name="stock_transaction_packaging_id_fk"
         ),
         sa.ForeignKeyConstraint(
             ["product_id"], ["product.id"], name="stock_transaction_product_id_fk"
