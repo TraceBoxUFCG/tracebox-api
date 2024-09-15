@@ -20,12 +20,12 @@ class StockFinder(BaseFinder[StockModel]):
     def filtered_by_product_name(self, target: str):
         if target:
             return StockFinder(
-                (self.base_query.filter(ProductModel.q.ilike(f"%{target.strip()}%")))
+                (self.base_query.filter(ProductModel.name.ilike(f"%{target.strip()}%")))
             )
         return self
 
     def search_by_query_criterias(self, target: str):
-        product_name_query = self.filtered_by_business_name_ilike(target=target).query
+        product_name_query = self.filtered_by_product_name(target=target).query
 
         return StockFinder(product_name_query)
 
