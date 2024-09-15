@@ -103,4 +103,7 @@ class AssetService(BaseService[AssetCreate, AssetUpdate, Asset]):
         )
 
     def get_by_product_id(self, product_id: str) -> List[Asset]:
-        return self.repository.get_by_product_id(product_id=product_id)
+        return [
+            Asset.model_validate(item)
+            for item in self.repository.get_by_product_id(product_id=product_id)
+        ]

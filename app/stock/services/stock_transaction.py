@@ -22,4 +22,7 @@ class StockTransactionService(
         self.db = db
 
     def get_by_product_id(self, product_id: str) -> List[StockTransaction]:
-        return self.repository.get_by_product_id(product_id=product_id)
+        return [
+            StockTransaction.model_validate(item)
+            for item in self.repository.get_by_product_id(product_id=product_id)
+        ]

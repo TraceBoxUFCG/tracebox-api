@@ -38,12 +38,16 @@ class StockService(BaseService[StockCreate, StockUpdate, Stock]):
 
     def get_by_product_id(self, product_id: int) -> Optional[Stock]:
         try:
-            return self.repository.get_by_product_id(product_id=product_id)
+            model = self.repository.get_by_product_id(product_id=product_id)
+            return Stock.model_validate(model)
         except RecordNotFoundException:
             return None
 
     def get_stock_details(self, product_id: str) -> StockDetail:
-        stock_model = self.get_by_id(id=1)
-        stock = Stock.model_validate(stock_model)
-        detail = StockDetail(stock=stock)
+        stock = self.get_by_product_id(product_id=product_id)
+        transactions = self.stock_transaction_service.get_by_product_id(
+            product_id=product_id
+        )
+        assets = self.asset_service.get_by_product_id(product_id=product_id)
+        detail = StockDetail(stock=stock, transactions=transactions, assets=assets)
         return detail

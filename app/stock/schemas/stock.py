@@ -1,9 +1,10 @@
-from typing import Optional
+from typing import List, Optional
 
 from fastapi import Query
 from pydantic import BaseModel, Field
 
 from app.catalog.schemas.product import Product
+from app.stock.schemas.stock_transaction import StockTransaction
 
 
 class StockBase(BaseModel):
@@ -38,3 +39,5 @@ class Asset(BaseModel):
 
 class StockDetail(BaseModel):
     stock: Stock
+    transactions: List[StockTransaction]
+    assets: List[Asset]
