@@ -1,4 +1,5 @@
 from app.catalog.models.product import ProductModel
+from app.common.exceptions import RecordNotFoundException
 from app.common.repositories.base import BaseFinder, BaseRepository
 from app.stock.models.stock import StockModel
 from sqlalchemy.orm import Session
@@ -39,3 +40,13 @@ class StockRepository(
         super().__init__(
             StockModel.id, model_class=StockModel, db=db, finder=StockFinder
         )
+
+    def get_by_product_id(self, product_id: int) -> StockModel:
+        model = (
+            self.db.query(StockModel)
+            .filter(StockModel.product_id == product_id)
+            .filter(StockModel.deleted_at.is_(None))
+        )
+        if not model:
+            raise RecordNotFoundException()
+        return model

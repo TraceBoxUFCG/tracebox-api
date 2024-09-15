@@ -15,11 +15,12 @@ class StockCreate(StockBase):
     ...
 
 
-class StockUpdate(StockBase):
+class StockUpdate(BaseModel):
     quantity: Optional[int]
 
 
 class Stock(StockBase):
+    id: int
     product: Product
 
 

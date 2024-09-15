@@ -1,3 +1,5 @@
+from typing import Optional
+from app.common.exceptions import RecordNotFoundException
 from app.common.services.base import BaseService
 from app.stock.repositories.stock import StockFinder, StockRepository
 from app.stock.schemas.stock import Stock, StockCreate, StockListParams, StockUpdate
@@ -22,3 +24,9 @@ class StockService(BaseService[StockCreate, StockUpdate, Stock]):
 
     def get_all_for_pagination(self, params: StockListParams):
         return self._get_all_query(params=params).query
+
+    def get_by_product_id(self, product_id: int) -> Optional[Stock]:
+        try:
+            self.repository.get_by_product_id(product_id=product_id)
+        except RecordNotFoundException:
+            return None
