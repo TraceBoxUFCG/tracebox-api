@@ -27,6 +27,9 @@ class AsseLotService(
         )
 
     def get_by_purchase_order_id(self, purchase_order_id: int) -> List[AssetLot]:
-        return self.repository.get_by_purchase_order_id(
-            purchase_order_id=purchase_order_id
-        )
+        return [
+            AssetLot.model_validate(item)
+            for item in self.repository.get_by_purchase_order_id(
+                purchase_order_id=purchase_order_id
+            )
+        ]

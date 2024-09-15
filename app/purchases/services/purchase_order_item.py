@@ -64,6 +64,9 @@ class PurchaseOrderItemService(
     def get_items_by_purchase_order(
         self, purchase_order_id: int
     ) -> List[PurchaseOrderItem]:
-        return self.repository.get_by_purchase_order_id(
-            purchase_order_id=purchase_order_id
-        )
+        return [
+            PurchaseOrderItem.model_validate(item)
+            for item in self.repository.get_by_purchase_order_id(
+                purchase_order_id=purchase_order_id
+            )
+        ]
