@@ -22,7 +22,6 @@ def upgrade() -> None:
         "stock",
         sa.Column("quantity", sa.Numeric(), nullable=False),
         sa.Column("product_id", sa.Integer(), nullable=False),
-        sa.Column("packaging_id", sa.Integer(), nullable=False),
         sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
         sa.Column(
             "updated_at", sa.DateTime(), server_default=sa.text("now()"), nullable=False
@@ -32,17 +31,14 @@ def upgrade() -> None:
         ),
         sa.Column("deleted_at", sa.DateTime(), nullable=True),
         sa.ForeignKeyConstraint(
-            ["packaging_id"], ["packaging.id"], name="stock_packaging_id_fk"
-        ),
-        sa.ForeignKeyConstraint(
             ["product_id"], ["product.id"], name="stock_product_id_fk"
         ),
         sa.PrimaryKeyConstraint("id"),
     )
     op.create_index(
-        "ix_product_id_packaging_id_uniqueness",
+        "ix_product_id_uniqueness",
         "stock",
-        ["product_id", "packaging_id"],
+        ["product_id"],
         unique=True,
         postgresql_where=sa.text("deleted_at IS NULL"),
     )
@@ -50,7 +46,7 @@ def upgrade() -> None:
 
 def downgrade() -> None:
     op.drop_index(
-        "ix_product_id_packaging_id_uniqueness",
+        "ix_product_id_uniqueness",
         table_name="stock",
         postgresql_where=sa.text("deleted_at IS NULL"),
     )
