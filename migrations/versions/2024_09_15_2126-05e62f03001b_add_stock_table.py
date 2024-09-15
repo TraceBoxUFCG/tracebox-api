@@ -1,7 +1,7 @@
 """add_stock_table
 
 Revision ID: 05e62f03001b
-Revises: dc07d3946649
+Revises: 2fae09c6b6f1
 Create Date: 2024-09-08 21:26:47.749870
 
 """
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision: str = "05e62f03001b"
-down_revision = "dc07d3946649"
+down_revision = "2fae09c6b6f1"
 branch_labels = None
 depends_on = None
 
