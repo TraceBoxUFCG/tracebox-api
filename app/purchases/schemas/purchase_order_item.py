@@ -31,6 +31,8 @@ class Receivement(BaseModel):
     received_quantity: int
     rejected_quantity: int
 
+    model_config = {"from_attributes": True}
+
 
 class PurchaseOrderItem(PurchaseOrderItemBase):
     id: int

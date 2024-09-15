@@ -31,8 +31,15 @@ class StockListParams(BaseModel):
     q: Optional[str] = Field(Query(None, description="Simple search by product name"))
 
 
+class Packaging(BaseModel):
+    description: str
+
+    model_config = {"from_attributes": True}
+
+
 class Asset(BaseModel):
     id: int
+    product: Product
 
     model_config = {"from_attributes": True}
 
