@@ -18,6 +18,7 @@ from app.receivement.services.asset_lot import AsseLotService
 from app.receivement.services.receivement_item import ReceivementItemService
 from app.stock.schemas.asset import AssetStatusEnum
 from app.stock.services.asset import AssetService
+from app.stock.services.stock_management import StockManagementService
 
 
 class LottingService:
@@ -29,6 +30,7 @@ class LottingService:
         self.asset_lot_service = AsseLotService(db=db)
         self.receivement_item_service = ReceivementItemService(db=db)
         self.asset_service = AssetService(db=db)
+        self.stock_management_service = StockManagementService(db=db)
 
     def start(self, purchase_order_id: int) -> List[AssetLot]:
         purchase_order: PurchaseOrder = self.purchase_order_service.get_by_id(
@@ -112,6 +114,7 @@ class LottingService:
             receivement_item_id=receiment_item.id
         )
         self.asset_service.lot(id=asset_id, packaging=packaging)
+        self.stock_management_service.add_from_lotting(asset_lot=asset_lot)
 
         return asset_lot
 

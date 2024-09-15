@@ -23,13 +23,13 @@ class StockTransactionModel(Base, TableModel):
     )
 
     packaging_id = Column(
-        ForeignKey("product.id", name="stock_transaction_packaging_id_fk"),
+        ForeignKey("packaging.id", name="stock_transaction_packaging_id_fk"),
         nullable=False,
     )
 
     packaging = relationship(
         "PackagingModel",
-        primaryjoin="and_(PackagingModel.id==StockTransactionModel.product_id, PackagingModel.deleted_at.is_(None))",
+        primaryjoin="and_(PackagingModel.id==StockTransactionModel.packaging_id, PackagingModel.deleted_at.is_(None))",
         lazy=True,
     )
 
