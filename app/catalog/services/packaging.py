@@ -11,5 +11,5 @@ class PackagingService(BaseService[PackagingCreate, PackagingUpdate, Packaging])
     repository: PackagingRepository
 
     def __init__(self, db: Session):
-        super().__init__(db=db, repository=PackagingRepository)
+        super().__init__(db=db, repository=PackagingRepository, return_model=Packaging)
         self.db = db

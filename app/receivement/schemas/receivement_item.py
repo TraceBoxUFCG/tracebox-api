@@ -28,6 +28,8 @@ class ReceivementItem(ReceivementItemBase):
     id: int
     purchase_order_item: PurchaseOrderItem
 
+    model_config = {"from_attributes": True}
+
 
 class ReceivementItemUpdate(BaseModel):
     received_quantity: Optional[int] = None

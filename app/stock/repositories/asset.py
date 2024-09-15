@@ -1,7 +1,10 @@
+from typing import List
 from sqlalchemy import cast
 import sqlalchemy
 from sqlalchemy.orm import Session
 
+from app.catalog.models.packaging import PackagingModel
+from app.catalog.models.product import ProductModel
 from app.common.repositories.base import BaseFinder, BaseRepository
 from app.stock.models.asset import AssetModel
 
@@ -46,3 +49,13 @@ class AssetRepository(
     @property
     def default_query(self):
         return super().default_query.order_by(AssetModel.packaging_id)
+
+    def get_by_product_id(self, product_id: str) -> List[AssetModel]:
+        return (
+            self.default_query.join(
+                PackagingModel, PackagingModel.id == AssetModel.packaging_id
+            )
+            .join(ProductModel, ProductModel.packaging_id == PackagingModel.id)
+            .filter(ProductModel.id == product_id)
+            .all()
+        )

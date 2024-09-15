@@ -26,6 +26,7 @@ qrcode = {extras = ["pil"], version = "^7.4.2"}
 reportlab = "^4.2.2"
 xhtml2pdf = "^0.2.16"
 alembic-autogenerate-enums = "^0.1.2"
+sqlalchemy-to-pydantic = "^0.0.8"
 
 
 [build-system]

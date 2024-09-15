@@ -47,6 +47,8 @@ class PurchaseOrder(PurchaseOrderBase):
     supplier: Supplier
     items: List[PurchaseOrderItem]
 
+    model_config = {"from_attributes": True}
+
 
 class PurchaseOrderListParams(BaseModel):
     q: Optional[str] = Field(

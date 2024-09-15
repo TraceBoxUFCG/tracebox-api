@@ -23,3 +23,5 @@ class AssetLot(AssetLotBase):
     receivement_item: ReceivementItem
     asset_id: Optional[int] = None
     asset: Optional[Asset] = None
+
+    model_config = {"from_attributes": True}

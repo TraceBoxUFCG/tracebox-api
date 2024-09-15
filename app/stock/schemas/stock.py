@@ -23,6 +23,18 @@ class Stock(StockBase):
     id: int
     product: Product
 
+    model_config = {"from_attributes": True}
+
 
 class StockListParams(BaseModel):
     q: Optional[str] = Field(Query(None, description="Simple search by product name"))
+
+
+class Asset(BaseModel):
+    id: int
+
+    model_config = {"from_attributes": True}
+
+
+class StockDetail(BaseModel):
+    stock: Stock

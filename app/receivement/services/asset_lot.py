@@ -16,7 +16,7 @@ class AsseLotService(
     repository: AssetLotRepository
 
     def __init__(self, db: Session):
-        super().__init__(db=db, repository=AssetLotRepository)
+        super().__init__(db=db, repository=AssetLotRepository, return_model=AssetLot)
         self.db = db
 
     def get_not_lotted_by_purchase_order_id(

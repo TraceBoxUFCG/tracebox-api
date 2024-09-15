@@ -36,3 +36,5 @@ class PurchaseOrderItem(PurchaseOrderItemBase):
     id: int
     product_variety: ProductVariety
     receivement: Optional[Receivement] = None
+
+    model_config = {"from_attributes": True}

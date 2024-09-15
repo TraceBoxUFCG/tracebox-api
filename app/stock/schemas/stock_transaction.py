@@ -41,3 +41,5 @@ class StockTransaction(StockTransactionBase):
     id: int
     product: Product
     packaging: Packaging
+
+    model_config = {"from_attributes": True}

@@ -12,7 +12,7 @@ class AddressService(BaseService[AddressCreate, AddressUpdate, Address]):
     google_client: GoogleClient
 
     def __init__(self, db: Session):
-        super().__init__(db=db, repository=AddressRepository)
+        super().__init__(db=db, repository=AddressRepository, return_model=Address)
         self.db = db
         self.google_client = GoogleClient()
 

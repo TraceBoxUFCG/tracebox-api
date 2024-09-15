@@ -23,7 +23,9 @@ class PurchaseOrderService(
     purchase_order_item_service: PurchaseOrderItemService
 
     def __init__(self, db: Session):
-        super().__init__(db=db, repository=PurchaseOrderRepository)
+        super().__init__(
+            db=db, repository=PurchaseOrderRepository, return_model=PurchaseOrder
+        )
         self.db = db
         self.purchase_order_item_service = PurchaseOrderItemService(db=db)
 

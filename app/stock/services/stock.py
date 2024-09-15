@@ -2,8 +2,17 @@ from typing import Optional
 from app.common.exceptions import RecordNotFoundException
 from app.common.services.base import BaseService
 from app.stock.repositories.stock import StockFinder, StockRepository
-from app.stock.schemas.stock import Stock, StockCreate, StockListParams, StockUpdate
+from app.stock.schemas.stock import (
+    Stock,
+    StockCreate,
+    StockDetail,
+    StockListParams,
+    StockUpdate,
+)
 from sqlalchemy.orm import Session
+
+from app.stock.services.asset import AssetService
+from app.stock.services.stock_transaction import StockTransactionService
 
 
 class StockService(BaseService[StockCreate, StockUpdate, Stock]):
@@ -11,8 +20,10 @@ class StockService(BaseService[StockCreate, StockUpdate, Stock]):
     repository: StockRepository
 
     def __init__(self, db: Session):
-        super().__init__(db=db, repository=StockRepository)
+        super().__init__(db=db, repository=StockRepository, return_model=Stock)
         self.db = db
+        self.asset_service = AssetService(db=db)
+        self.stock_transaction_service = StockTransactionService(db=db)
 
     def _get_all_query(self, params: StockListParams) -> StockFinder:
         filtered = self.repository.finder
@@ -30,3 +41,9 @@ class StockService(BaseService[StockCreate, StockUpdate, Stock]):
             return self.repository.get_by_product_id(product_id=product_id)
         except RecordNotFoundException:
             return None
+
+    def get_stock_details(self, product_id: str) -> StockDetail:
+        stock_model = self.get_by_id(id=1)
+        stock = Stock.model_validate(stock_model)
+        detail = StockDetail(stock=stock)
+        return detail

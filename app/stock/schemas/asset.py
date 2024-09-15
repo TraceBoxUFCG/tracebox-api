@@ -34,6 +34,8 @@ class Asset(AssetBase):
     id: int
     product: Optional[Product] = None
 
+    model_config = {"from_attributes": True}
+
 
 class AssetListParams(BaseModel):
     q: Optional[str] = Field(Query(None, description="Simple search by asset id"))
