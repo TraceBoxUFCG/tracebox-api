@@ -8,20 +8,15 @@ from sqlalchemy.orm import Session
 class StockFinder(BaseFinder[StockModel]):
     @classmethod
     def get_instance(cls, db: Session):
-        return cls(
-            db.query(StockModel)
-            .join(ProductModel, ProductModel.id == StockModel.product_id)
-            .filter(
-                StockModel.deleted_at.is_(None).filter(
-                    ProductModel.deleted_at.is_(None)
-                )
-            )
-        )
+        return cls(db.query(StockModel).filter(StockModel.deleted_at.is_(None)))
 
     def filtered_by_product_name(self, target: str):
         if target:
+            query = self.base_query.join(
+                ProductModel, ProductModel.id == StockModel.product_id
+            ).filter(ProductModel.deleted_at.is_(None))
             return StockFinder(
-                (self.base_query.filter(ProductModel.name.ilike(f"%{target.strip()}%")))
+                (query.filter(ProductModel.name.ilike(f"%{target.strip()}%")))
             )
         return self
 
