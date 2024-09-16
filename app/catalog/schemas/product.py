@@ -29,6 +29,8 @@ class Product(ProductBase):
     id: int
     packaging: Packaging
 
+    model_config = {"from_attributes": True}
+
 
 class ProductListParams(BaseModel):
     q: Optional[str] = Field(Query(None, description="Simple search by Product name"))

@@ -21,6 +21,8 @@ class ProductVariety(ProductVarietyBase):
     id: int
     product: Product
 
+    model_config = {"from_attributes": True}
+
 
 class ProductVarietyListParams(BaseModel):
     q: Optional[str] = Field(

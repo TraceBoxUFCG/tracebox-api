@@ -26,7 +26,7 @@ class AssetService(BaseService[AssetCreate, AssetUpdate, Asset]):
     repository: AssetRepository
 
     def __init__(self, db: Session):
-        super().__init__(db=db, repository=AssetRepository)
+        super().__init__(db=db, repository=AssetRepository, return_model=Asset)
         self.db = db
 
     def generate_assets(self, payload: AssetGeneratePayload):
@@ -101,3 +101,9 @@ class AssetService(BaseService[AssetCreate, AssetUpdate, Asset]):
                 status=AssetStatusEnum.OCCUPIED, packaging_id=packaging.id
             ),
         )
+
+    def get_by_product_id(self, product_id: str) -> List[Asset]:
+        return [
+            Asset.model_validate(item)
+            for item in self.repository.get_by_product_id(product_id=product_id)
+        ]

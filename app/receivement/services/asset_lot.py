@@ -16,7 +16,7 @@ class AsseLotService(
     repository: AssetLotRepository
 
     def __init__(self, db: Session):
-        super().__init__(db=db, repository=AssetLotRepository)
+        super().__init__(db=db, repository=AssetLotRepository, return_model=AssetLot)
         self.db = db
 
     def get_not_lotted_by_purchase_order_id(
@@ -27,6 +27,9 @@ class AsseLotService(
         )
 
     def get_by_purchase_order_id(self, purchase_order_id: int) -> List[AssetLot]:
-        return self.repository.get_by_purchase_order_id(
-            purchase_order_id=purchase_order_id
-        )
+        return [
+            AssetLot.model_validate(item)
+            for item in self.repository.get_by_purchase_order_id(
+                purchase_order_id=purchase_order_id
+            )
+        ]

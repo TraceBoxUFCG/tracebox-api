@@ -22,7 +22,7 @@ class SupplierService(BaseService[SupplierCreate, SupplierUpdate, Supplier]):
 
     def __init__(self, db: Session):
         self.address_service = AddressService(db=db)
-        super().__init__(db=db, repository=SupplierRepository)
+        super().__init__(db=db, repository=SupplierRepository, return_model=Supplier)
         self.db = db
 
     def create(self, create: SupplierCreate) -> Supplier:

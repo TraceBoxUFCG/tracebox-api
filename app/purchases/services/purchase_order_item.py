@@ -17,7 +17,9 @@ class PurchaseOrderItemService(
     db: Session
 
     def __init__(self, db: Session):
-        super().__init__(db=db, repository=PurchaseOrdeItemRepository)
+        super().__init__(
+            db=db, repository=PurchaseOrdeItemRepository, return_model=PurchaseOrderItem
+        )
         self.db = db
 
     def place(
@@ -62,6 +64,9 @@ class PurchaseOrderItemService(
     def get_items_by_purchase_order(
         self, purchase_order_id: int
     ) -> List[PurchaseOrderItem]:
-        return self.repository.get_by_purchase_order_id(
-            purchase_order_id=purchase_order_id
-        )
+        return [
+            PurchaseOrderItem.model_validate(item)
+            for item in self.repository.get_by_purchase_order_id(
+                purchase_order_id=purchase_order_id
+            )
+        ]

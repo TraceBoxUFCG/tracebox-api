@@ -26,7 +26,9 @@ class ReceivementItemService(
     repository: ReceivementItemRepository
 
     def __init__(self, db: Session):
-        super().__init__(db=db, repository=ReceivementItemRepository)
+        super().__init__(
+            db=db, repository=ReceivementItemRepository, return_model=ReceivementItem
+        )
         self.db = db
 
     def create(self, create: ReceivementItemCreate) -> ReceivementItem:

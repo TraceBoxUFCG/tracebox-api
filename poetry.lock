@@ -2135,6 +2135,21 @@ pymysql = ["pymysql"]
 sqlcipher = ["sqlcipher3_binary"]
 
 [[package]]
+name = "sqlalchemy-to-pydantic"
+version = "0.0.8"
+description = "Tools to convert SQLAlchemy models to Pydantic models"
+optional = false
+python-versions = ">=3.10,<4.0"
+files = [
+    {file = "sqlalchemy_to_pydantic-0.0.8-py3-none-any.whl", hash = "sha256:e2b13b793b983cc43ec2291bd0dadc731c278017814b98140df8f1c468c4f837"},
+    {file = "sqlalchemy_to_pydantic-0.0.8.tar.gz", hash = "sha256:7af94ecd04c3ca1243975bba5e8e2b2e3928faf9f5ad98a555b0a1b90eec344e"},
+]
+
+[package.dependencies]
+pydantic = ">=2.3.0,<3.0.0"
+sqlalchemy = ">=2.0.20,<3.0.0"
+
+[[package]]
 name = "sqlalchemy-utils"
 version = "0.41.2"
 description = "Various utility functions for SQLAlchemy."
@@ -2597,4 +2612,4 @@ test = ["coverage (>=5.3)", "tomli (>=2.0.1)", "tox"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12.4"
-content-hash = "8bc5a5d463695b4cefda15c34740da7002931b897940b4756048aed1b6b29686"
+content-hash = "c2573355d5b469ab8fba3d077414cce9d715b64d64b7195cbbec5fb0663ec8be"

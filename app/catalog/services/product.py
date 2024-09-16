@@ -21,7 +21,7 @@ class ProductService(BaseService[ProductCreate, ProductUpdate, Product]):
     packaging_service: PackagingService
 
     def __init__(self, db: Session):
-        super().__init__(db=db, repository=ProductRepository)
+        super().__init__(db=db, repository=ProductRepository, return_model=Product)
         self.db = db
         self.packaging_service = PackagingService(db=db)
 

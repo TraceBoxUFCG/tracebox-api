@@ -31,8 +31,12 @@ class Receivement(BaseModel):
     received_quantity: int
     rejected_quantity: int
 
+    model_config = {"from_attributes": True}
+
 
 class PurchaseOrderItem(PurchaseOrderItemBase):
     id: int
     product_variety: ProductVariety
     receivement: Optional[Receivement] = None
+
+    model_config = {"from_attributes": True}

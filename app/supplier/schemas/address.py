@@ -34,3 +34,5 @@ class AddressUpdate(AddressBase):
 
 class Address(AddressBase):
     id: int
+
+    model_config = {"from_attributes": True}

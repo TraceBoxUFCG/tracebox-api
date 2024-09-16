@@ -19,3 +19,5 @@ class PackagingUpdate(BaseModel):
 class Packaging(PackagingBase):
     id: int
     description: str
+
+    model_config = {"from_attributes": True}

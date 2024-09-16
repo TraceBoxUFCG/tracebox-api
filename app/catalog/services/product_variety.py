@@ -27,7 +27,9 @@ class ProductVarietyService(
     repository: ProductVarietyRepository
 
     def __init__(self, db: Session):
-        super().__init__(db=db, repository=ProductVarietyRepository)
+        super().__init__(
+            db=db, repository=ProductVarietyRepository, return_model=ProductVariety
+        )
         self.db = db
 
     def create(self, create: ProductVarietyCreate) -> ProductVariety:

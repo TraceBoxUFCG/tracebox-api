@@ -29,6 +29,8 @@ class Supplier(SupplierBase):
     id: int
     address: Address
 
+    model_config = {"from_attributes": True}
+
 
 class SupplierListParams(BaseModel):
     q: Optional[str] = Field(
