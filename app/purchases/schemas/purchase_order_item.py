@@ -3,6 +3,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 from app.catalog.schemas.product_variety import ProductVariety
+from app.supplier.schemas.supplier import Supplier
 
 
 class PurchaseOrderItemBase(BaseModel):
@@ -34,9 +35,16 @@ class Receivement(BaseModel):
     model_config = {"from_attributes": True}
 
 
+class PurchaseOrder(BaseModel):
+    supplier: Supplier
+
+    model_config = {"from_attributes": True}
+
+
 class PurchaseOrderItem(PurchaseOrderItemBase):
     id: int
     product_variety: ProductVariety
     receivement: Optional[Receivement] = None
+    purchase_order: PurchaseOrder
 
     model_config = {"from_attributes": True}

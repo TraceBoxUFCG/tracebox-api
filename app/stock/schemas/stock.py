@@ -4,6 +4,7 @@ from fastapi import Query
 from pydantic import BaseModel, Field
 
 from app.catalog.schemas.product import Product
+from app.stock.schemas.asset import Asset
 from app.stock.schemas.stock_transaction import StockTransaction
 
 
@@ -33,13 +34,6 @@ class StockListParams(BaseModel):
 
 class Packaging(BaseModel):
     description: str
-
-    model_config = {"from_attributes": True}
-
-
-class Asset(BaseModel):
-    id: int
-    product: Product
 
     model_config = {"from_attributes": True}
 

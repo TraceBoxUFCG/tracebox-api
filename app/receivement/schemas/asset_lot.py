@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel
 
@@ -23,5 +24,6 @@ class AssetLot(AssetLotBase):
     receivement_item: ReceivementItem
     asset_id: Optional[int] = None
     asset: Optional[Asset] = None
+    created_at: datetime
 
     model_config = {"from_attributes": True}
