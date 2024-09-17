@@ -36,7 +36,6 @@ class PurchaseOrderItemModel(Base, TableModel):
     purchase_order = relationship(
         "PurchaseOrderModel",
         primaryjoin="and_(PurchaseOrderItemModel.purchase_order_id==PurchaseOrderModel.id, PurchaseOrderModel.deleted_at.is_(None))",
-        back_populates="items",
         lazy=True,
     )
 

@@ -29,7 +29,7 @@ class StockTransactionCreate(StockTransactionBase):
             product_id=product.id,
             packaging_id=packaging.id,
             type=StockTransactionTypeEnum.ENTRY,
-            meta={"entry": {"from": asset_lot.id}},
+            meta={"entry": {"from": asset_lot}},
         )
 
 
